@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://dozer.sourceforge.net
+      http://dozer.sourceforge.net/schema/beanmapping.xsd">
+       
+     <!-- <mapping>
+        <class-a>com.example.howtodoinjava.dozer.models.SourceObject</class-a>
+        <class-b>com.example.howtodoinjava.dozer.models.DestinationObject</class-b>
+        <field>
+            <a>students</a>
+            <b>pupils</b>
+        </field>
+    </mapping>
+ 
+    <mapping>
+        <class-a>com.example.howtodoinjava.dozer.models.Student</class-a>
+        <class-b>com.example.howtodoinjava.dozer.models.StudentVO</class-b>
+        <field>
+            <a>batch</a>
+            <b>batchName</b>
+        </field>
+        <field>
+            <a>address</a>
+            <b>homeAddress</b>
+        </field>
+    </mapping> -->
+ 
+</mappings>
