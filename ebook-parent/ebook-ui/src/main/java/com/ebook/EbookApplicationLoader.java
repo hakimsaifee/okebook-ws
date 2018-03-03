@@ -9,11 +9,11 @@ import com.ebook.services.service.NotificationService;
 
 @SpringBootApplication(scanBasePackages = "com.ebook")
 @RestController
-public class DemoApplication {
+public class EbookApplicationLoader {
 
     private final NotificationService myService;
 
-    public DemoApplication(NotificationService myService) {
+    public EbookApplicationLoader(NotificationService myService) {
         this.myService = myService;
     }
 
@@ -37,6 +37,6 @@ public class DemoApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(EbookApplicationLoader.class, args);
     }
 }
