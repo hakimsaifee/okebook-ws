@@ -21,19 +21,6 @@ public class EbookApplicationLoader {
 
     @GetMapping("/")
     public String home() {
-//        return myService.message();
-    	
-    	
-//    	Notification entity = new Notification();
-//    	entity.setFileName("ABC");
-//    	entity.setNotificationName("N1");
-//    	entity.setFileLocation("ABCC");	
-//    	
-//		NotificationDTO notificationDTO = myService.save(entity );
-//		System.out.println("Notification DTO : " + notificationDTO);
-//		
-//		Collection<NotificationDTO> list = myService.getAll();
-//		System.out.println(list.size());
 
 		return "Notification Crated";
     }
