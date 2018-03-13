@@ -3,6 +3,7 @@ package com.ebook.domain.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -45,7 +47,7 @@ public class Part implements Serializable {
 	private String partNumber;
 
 	// bi-directional many-to-one association to Section
-	@OneToMany(mappedBy = "part")
+	@OneToMany(mappedBy = "part",cascade=CascadeType.ALL)
 	private Set<Section> sections;
 
 	public Part() {
