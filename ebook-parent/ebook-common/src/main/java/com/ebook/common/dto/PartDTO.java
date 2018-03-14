@@ -1,9 +1,16 @@
 package com.ebook.common.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Set;
 
 public class PartDTO implements Serializable {
+
+	@Override
+	public String toString() {
+		return "PartDTO [id=" + id + ", partName=" + partName + ", partNumber=" + partNumber + ", sections=" + sections
+				+ "]";
+	}
 
 	/**
 	* 
@@ -11,8 +18,11 @@ public class PartDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private long id;
-	private String partName;
-	private String partNumber;
+
+	private String partHeading;
+
+	private BigDecimal partNumber;
+
 	private Set<SectionDTO> sections;
 
 	public long getId() {
@@ -23,19 +33,19 @@ public class PartDTO implements Serializable {
 		this.id = id;
 	}
 
-	public String getPartName() {
-		return partName;
+	public String getPartHeading() {
+		return partHeading;
 	}
 
-	public void setPartName(String partName) {
-		this.partName = partName;
+	public void setPartHeading(String partHeading) {
+		this.partHeading = partHeading;
 	}
 
-	public String getPartNumber() {
-		return this.partNumber;
+	public BigDecimal getPartNumber() {
+		return partNumber;
 	}
 
-	public void setPartNumber(String partNumber) {
+	public void setPartNumber(BigDecimal partNumber) {
 		this.partNumber = partNumber;
 	}
 

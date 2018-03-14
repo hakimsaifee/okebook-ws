@@ -13,11 +13,7 @@ public class SectionDTO implements Serializable {
 
 	private long id;
 
-	private String fileLocation;
-
-	private String fileName;
-
-	private String heading;
+	private String sectionHeading;
 
 	private BigDecimal sectionNumber;
 
@@ -35,28 +31,12 @@ public class SectionDTO implements Serializable {
 		this.id = id;
 	}
 
-	public String getFileLocation() {
-		return fileLocation;
+	public void setSectionHeading(String sectionHeading) {
+		this.sectionHeading = sectionHeading;
 	}
 
-	public void setFileLocation(String fileLocation) {
-		this.fileLocation = fileLocation;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public String getHeading() {
-		return heading;
-	}
-
-	public void setHeading(String heading) {
-		this.heading = heading;
+	public String getSectionHeading() {
+		return sectionHeading;
 	}
 
 	public BigDecimal getSectionNumber() {

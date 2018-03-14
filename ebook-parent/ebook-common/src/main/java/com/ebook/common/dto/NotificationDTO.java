@@ -1,17 +1,16 @@
 package com.ebook.common.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class NotificationDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private long id;
 
-	private String fileLocation;
+	private String notificationHeading;
 
-	private String fileName;
-
-	private String notificationName;
+	private BigDecimal notificationNumber;
 
 	public NotificationDTO() {
 	}
@@ -24,28 +23,20 @@ public class NotificationDTO implements Serializable {
 		this.id = id;
 	}
 
-	public String getFileLocation() {
-		return this.fileLocation;
+	public String getNotificationHeading() {
+		return notificationHeading;
 	}
 
-	public void setFileLocation(String fileLocation) {
-		this.fileLocation = fileLocation;
+	public void setNotificationHeading(String notificationHeading) {
+		this.notificationHeading = notificationHeading;
 	}
 
-	public String getFileName() {
-		return this.fileName;
+	public BigDecimal getNotificationNumber() {
+		return notificationNumber;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public String getNotificationName() {
-		return notificationName;
-	}
-
-	public void setNotificationName(String notificationName) {
-		this.notificationName = notificationName;
+	public void setNotificationNumber(BigDecimal notificationNumber) {
+		this.notificationNumber = notificationNumber;
 	}
 
 }

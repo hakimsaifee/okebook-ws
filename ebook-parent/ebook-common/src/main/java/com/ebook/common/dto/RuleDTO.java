@@ -1,6 +1,7 @@
 package com.ebook.common.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Set;
 
 public class RuleDTO implements Serializable {
@@ -12,11 +13,9 @@ public class RuleDTO implements Serializable {
 
 	private long id;
 
-	private String chapterNumber;
+	private BigDecimal ruleNumber;
 
-	private String fileLocation;
-
-	private String fileName;
+	private String ruleHeading;
 
 	private Set<SectionDTO> sections;
 
@@ -28,28 +27,20 @@ public class RuleDTO implements Serializable {
 		this.id = id;
 	}
 
-	public String getChapterNumber() {
-		return chapterNumber;
+	public String getRuleHeading() {
+		return ruleHeading;
 	}
 
-	public void setChapterNumber(String chapterNumber) {
-		this.chapterNumber = chapterNumber;
+	public void setRuleHeading(String ruleHeading) {
+		this.ruleHeading = ruleHeading;
 	}
 
-	public String getFileLocation() {
-		return fileLocation;
+	public BigDecimal getRuleNumber() {
+		return ruleNumber;
 	}
 
-	public void setFileLocation(String fileLocation) {
-		this.fileLocation = fileLocation;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setRuleNumber(BigDecimal ruleNumber) {
+		this.ruleNumber = ruleNumber;
 	}
 
 	public Set<SectionDTO> getSections() {

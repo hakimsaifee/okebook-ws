@@ -21,15 +21,8 @@ public class Section implements Serializable {
 	@Column(unique = true, nullable = false)
 	private long id;
 
-	@Column(name = "file_location", length = 2000)
-	private String fileLocation;
-
-	@Column(name = "file_name", length = 512)
-	private String fileName;
-
-	@Column(nullable = false)
-	@Lob
-	private String heading;
+	@Column(name = "section_heading", nullable = false, columnDefinition="TEXT")
+	private String sectionHeading;
 
 	@Column(name = "section_number", nullable = false, precision = 10, scale = 2)
 	private BigDecimal sectionNumber;
@@ -62,28 +55,13 @@ public class Section implements Serializable {
 		this.id = id;
 	}
 
-	public String getFileLocation() {
-		return this.fileLocation;
-	}
 
-	public void setFileLocation(String fileLocation) {
-		this.fileLocation = fileLocation;
+	public void setSectionHeading(String sectionHeading) {
+		this.sectionHeading = sectionHeading;
 	}
-
-	public String getFileName() {
-		return this.fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public String getHeading() {
-		return this.heading;
-	}
-
-	public void setHeading(String heading) {
-		this.heading = heading;
+	
+	public String getSectionHeading() {
+		return sectionHeading;
 	}
 
 	public BigDecimal getSectionNumber() {

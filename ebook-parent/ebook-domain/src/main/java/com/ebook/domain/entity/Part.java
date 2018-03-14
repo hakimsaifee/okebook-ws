@@ -1,6 +1,7 @@
 package com.ebook.domain.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,12 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -33,18 +32,17 @@ public class Part implements Serializable {
 	// generator="PART_ID_GENERATOR")
 	@Id
 //	@SequenceGenerator(name="PART_SEQ", initialValue=19899, allocationSize=100)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRODUCT_REGISTRATION_ID_GENERATOR")
-	@GenericGenerator(name = "PRODUCT_REGISTRATION_ID_GENERATOR", strategy = "sequence", parameters = {
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PART_GENERATOR")
+	@GenericGenerator(name = "PART_GENERATOR", strategy = "sequence", parameters = {
 			@org.hibernate.annotations.Parameter(name = "sequence", value = "PART_SEQ" )  })
 	@Column(unique = true, nullable = false)
 	private long id;
 
-	@Column(name = "part_name", nullable = false)
-	private String partName;
+	@Column(name = "part_heading", nullable = false, columnDefinition="TEXT")
+	private String partHeading;
 
-	@Column(name = "part_number", nullable = false, length = 512)
-	@Lob
-	private String partNumber;
+	@Column(name = "part_number", nullable = false, precision = 10, scale = 2)
+	private BigDecimal partNumber;
 
 	// bi-directional many-to-one association to Section
 	@OneToMany(mappedBy = "part",cascade=CascadeType.ALL)
@@ -61,22 +59,23 @@ public class Part implements Serializable {
 		this.id = id;
 	}
 
-	public String getPartName() {
-		return partName;
+	public String getPartHeading() {
+		return partHeading;
+	}
+	
+	public void setPartHeading(String partHeading) {
+		this.partHeading = partHeading;
 	}
 
-	public void setPartName(String partName) {
-		this.partName = partName;
-	}
 
-	public String getPartNumber() {
-		return this.partNumber;
+	public BigDecimal getPartNumber() {
+		return partNumber;
 	}
-
-	public void setPartNumber(String partNumber) {
+	
+	public void setPartNumber(BigDecimal partNumber) {
 		this.partNumber = partNumber;
 	}
-
+	
 	public Set<Section> getSections() {
 		return this.sections;
 	}

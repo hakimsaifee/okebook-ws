@@ -1,6 +1,7 @@
 package com.ebook.domain.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -21,14 +22,11 @@ public class Rule implements Serializable {
 	@Column(unique = true, nullable = false)
 	private long id;
 
-	@Column(name = "chapter_number", nullable = false, length = 50)
-	private String chapterNumber;
+	@Column(name = "rule_number", nullable = false, precision = 10, scale = 2)
+	private BigDecimal ruleNumber;
 
-	@Column(name = "file_location", nullable = false, length = 2000)
-	private String fileLocation;
-
-	@Column(name = "file_name", nullable = false, length = 512)
-	private String fileName;
+	@Column(name = "rule_heading", nullable = false, columnDefinition = "TEXT")
+	private String ruleHeading;
 
 	@ManyToMany(mappedBy = "rules")
 	private Set<Section> sections;
@@ -44,28 +42,32 @@ public class Rule implements Serializable {
 		this.id = id;
 	}
 
-	public String getChapterNumber() {
-		return this.chapterNumber;
+	public BigDecimal getRuleNumber() {
+		return ruleNumber;
 	}
 
-	public void setChapterNumber(String chapterNumber) {
-		this.chapterNumber = chapterNumber;
+	public void setRuleNumber(BigDecimal ruleNumber) {
+		this.ruleNumber = ruleNumber;
 	}
 
-	public String getFileLocation() {
-		return this.fileLocation;
+	public String getRuleHeading() {
+		return ruleHeading;
 	}
 
-	public void setFileLocation(String fileLocation) {
-		this.fileLocation = fileLocation;
+	public void setRuleHeading(String ruleHeading) {
+		this.ruleHeading = ruleHeading;
 	}
 
-	public String getFileName() {
-		return this.fileName;
+	public Set<Section> getSections() {
+		return sections;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setSections(Set<Section> sections) {
+		this.sections = sections;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

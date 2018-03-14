@@ -1,6 +1,7 @@
 package com.ebook.domain.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -8,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
@@ -30,15 +30,11 @@ public class Regulation implements Serializable {
 	@Column(unique = true, nullable = false)
 	private long id;
 
-	@Column(name = "file_location", nullable = false, length = 2000)
-	private String fileLocation;
+	@Column(name = "regulation_heading", nullable = false, columnDefinition = "TEXT")
+	private String regulationHeading;
 
-	@Column(name = "file_name", nullable = false, length = 512)
-	private String fileName;
-
-	@Column(name = "regulation_name", nullable = false)
-	@Lob
-	private String regulationName;
+	@Column(name = "regulation_number", nullable = false, precision = 10, scale = 2)
+	private BigDecimal regulationNumber;
 
 	@ManyToMany(mappedBy = "regulations")
 	private Set<Section> sections;
@@ -54,28 +50,20 @@ public class Regulation implements Serializable {
 		this.id = id;
 	}
 
-	public String getFileLocation() {
-		return this.fileLocation;
+	public BigDecimal getRegulationNumber() {
+		return regulationNumber;
 	}
 
-	public void setFileLocation(String fileLocation) {
-		this.fileLocation = fileLocation;
+	public void setRegulationNumber(BigDecimal regulationNumber) {
+		this.regulationNumber = regulationNumber;
 	}
 
-	public String getFileName() {
-		return this.fileName;
+	public String getRegulationHeading() {
+		return regulationHeading;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public String getRegulationName() {
-		return this.regulationName;
-	}
-
-	public void setRegulationName(String regulationName) {
-		this.regulationName = regulationName;
+	public void setRegulationHeading(String regulationHeading) {
+		this.regulationHeading = regulationHeading;
 	}
 
 	public Set<Section> getSections() {

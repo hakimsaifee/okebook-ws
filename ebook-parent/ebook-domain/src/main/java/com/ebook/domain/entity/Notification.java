@@ -1,6 +1,8 @@
 package com.ebook.domain.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 
 /**
@@ -19,15 +21,11 @@ public class Notification implements Serializable {
 	@Column(unique = true, nullable = false)
 	private long id;
 
-	@Column(name = "file_location", nullable = false, length = 2000)
-	private String fileLocation;
+	@Column(name = "notification_heading", nullable = false, columnDefinition = "TEXT")
+	private String notificationHeading;
 
-	@Column(name = "file_name", nullable = false, length = 512)
-	private String fileName;
-
-	@Column(name = "notification_name", nullable = false)
-	@Lob
-	private String notificationName;
+	@Column(name = "notification_number", nullable = false, precision = 10, scale = 2)
+	private BigDecimal notificationNumber;
 
 	public Notification() {
 	}
@@ -40,28 +38,20 @@ public class Notification implements Serializable {
 		this.id = id;
 	}
 
-	public String getFileLocation() {
-		return this.fileLocation;
+	public String getNotificationHeading() {
+		return notificationHeading;
 	}
 
-	public void setFileLocation(String fileLocation) {
-		this.fileLocation = fileLocation;
+	public void setNotificationHeading(String notificationHeading) {
+		this.notificationHeading = notificationHeading;
 	}
 
-	public String getFileName() {
-		return this.fileName;
+	public BigDecimal getNotificationNumber() {
+		return notificationNumber;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public String getNotificationName() {
-		return notificationName;
-	}
-
-	public void setNotificationName(String notificationName) {
-		this.notificationName = notificationName;
+	public void setNotificationNumber(BigDecimal notificationNumber) {
+		this.notificationNumber = notificationNumber;
 	}
 
 }
