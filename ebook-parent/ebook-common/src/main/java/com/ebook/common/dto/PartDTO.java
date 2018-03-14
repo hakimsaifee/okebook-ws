@@ -6,12 +6,6 @@ import java.util.Set;
 
 public class PartDTO implements Serializable {
 
-	@Override
-	public String toString() {
-		return "PartDTO [id=" + id + ", partName=" + partName + ", partNumber=" + partNumber + ", sections=" + sections
-				+ "]";
-	}
-
 	/**
 	* 
 	*/
