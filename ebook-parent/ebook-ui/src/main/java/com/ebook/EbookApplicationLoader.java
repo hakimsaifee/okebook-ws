@@ -1,8 +1,6 @@
 package com.ebook;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.common.dto.PartDTO;
-import com.ebook.common.dto.SectionDTO;
 import com.ebook.services.service.NotificationService;
 import com.ebook.services.service.PartService;
 
@@ -25,13 +22,12 @@ public class EbookApplicationLoader {
 
     private final NotificationService myService;
 
-    @Autowired
-    private PartService partService;
-    
     public EbookApplicationLoader(NotificationService myService) {
         this.myService = myService;
     }
 
+    @Autowired
+    private PartService partService;
     @GetMapping("/")
     public String home() {
 
@@ -43,5 +39,11 @@ public class EbookApplicationLoader {
     }
     
     @PostConstruct
-    public void init() {}
+    public void init() {/*
+    	
+    	PartDTO partDTO = new PartDTO();
+    	partDTO.setPartHeading("This is my part");
+    	partDTO.setPartNumber(new BigDecimal(1.1));
+    	partService.save(partDTO);    	
+    */}
 }
