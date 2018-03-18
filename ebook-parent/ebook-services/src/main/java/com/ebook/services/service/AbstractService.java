@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.dozer.DozerBeanMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,6 +42,7 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 	}
 
 	// TODO: Implement proper exception handling on all methods.
+	@Transactional
 	public Collection<V> getAll() {
 		Iterable<T> entities = repository.findAll();
 		if (entities != null) {

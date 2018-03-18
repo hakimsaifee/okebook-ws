@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
-import net.minidev.json.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 public class SectionDTO implements Serializable {
 
@@ -23,8 +23,8 @@ public class SectionDTO implements Serializable {
 
 	private Set<RuleDTO> rules;
 
-	@JsonIgnore
-	//private PartDTO part;
+	@JsonBackReference
+	private PartDTO part;
 
 	public long getId() {
 		return id;
@@ -66,13 +66,13 @@ public class SectionDTO implements Serializable {
 		this.rules = rules;
 	}
 
-	/*public PartDTO getPart() {
+	public PartDTO getPart() {
 		return part;
 	}
 
 	public void setPart(PartDTO part) {
 		this.part = part;
-	}*/
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
