@@ -7,6 +7,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.dozer.DozerBeanMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,8 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 
 	protected DozerBeanMapper beanMapper;
 
+	  private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
+	  
 	public AbstractService() {
 	}
 

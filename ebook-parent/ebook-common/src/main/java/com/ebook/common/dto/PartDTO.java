@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 public class PartDTO implements Serializable {
 
 	/**
@@ -19,7 +17,6 @@ public class PartDTO implements Serializable {
 
 	private BigDecimal partNumber;
 
-	@JsonManagedReference
 	private Set<SectionDTO> sections;
 
 	public long getId() {
