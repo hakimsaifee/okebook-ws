@@ -18,4 +18,5 @@ public class RegulationService extends AbstractService< Regulation, RegulationDT
 	public RegulationService(RegulationRepository repository, DozerBeanMapper dozerBeanMapper) {
 		super(repository, dozerBeanMapper);
 	}
+	
 }

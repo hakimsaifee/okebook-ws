@@ -4,4 +4,5 @@ import com.ebook.domain.entity.Regulation;
 
 public interface RegulationRepository extends AbstractRepository<Regulation, Long> {
 
+	
 }

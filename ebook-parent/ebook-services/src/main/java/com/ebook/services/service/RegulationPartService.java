@@ -1,5 +1,7 @@
 package com.ebook.services.service;
 
+import java.math.BigDecimal;
+
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,4 +21,7 @@ public class RegulationPartService extends AbstractService<RegulationPart, Regul
 		super(repository, dozerBeanMapper);
 	}
 
+	public RegulationPart getRegulationByRegulationNumber(BigDecimal partNumber) {
+		return repository.findByregulationChapterNumber(partNumber);
+	}
 }
