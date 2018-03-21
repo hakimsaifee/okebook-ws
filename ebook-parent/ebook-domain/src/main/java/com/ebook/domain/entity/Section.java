@@ -41,7 +41,7 @@ public class Section implements Serializable {
 	@Column(name = "section_number", nullable = false, precision = 10, scale = 2)
 	private BigDecimal sectionNumber;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	/*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "section_regulation", joinColumns = {
 			@JoinColumn(name = "section_id", referencedColumnName = "id", table = "section") }, inverseJoinColumns = {
 					@JoinColumn(name = "regulation_id", referencedColumnName = "id", table = "regulation") })
@@ -51,7 +51,7 @@ public class Section implements Serializable {
 	@JoinTable(name = "section_rule", joinColumns = {
 			@JoinColumn(name = "section_id", referencedColumnName = "id", table = "section") }, inverseJoinColumns = {
 					@JoinColumn(name = "rule_id", referencedColumnName = "id", table = "rule") })
-	private Set<Rule> rules;
+	private Set<Rule> rules;*/
 
 	// bi-directional many-to-one association to Part
 	@ManyToOne
@@ -86,28 +86,12 @@ public class Section implements Serializable {
 		this.sectionNumber = sectionNumber;
 	}
 
-	public Set<Regulation> getRegulations() {
-		return regulations;
-	}
-
-	public void setRegulations(Set<Regulation> regulations) {
-		this.regulations = regulations;
-	}
-
 	public Part getPart() {
 		return this.part;
 	}
 
 	public void setPart(Part part) {
 		this.part = part;
-	}
-
-	public Set<Rule> getRules() {
-		return rules;
-	}
-
-	public void setRules(Set<Rule> rules) {
-		this.rules = rules;
 	}
 
 }

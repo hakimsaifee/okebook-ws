@@ -28,9 +28,9 @@ public class Rule implements Serializable {
 	@Column(name = "rule_heading", nullable = false, columnDefinition = "TEXT")
 	private String ruleHeading;
 
-	@ManyToMany(mappedBy = "rules")
+	/*@ManyToMany(mappedBy = "rules")
 	private Set<Section> sections;
-
+*/
 	public Rule() {
 	}
 
@@ -56,14 +56,6 @@ public class Rule implements Serializable {
 
 	public void setRuleHeading(String ruleHeading) {
 		this.ruleHeading = ruleHeading;
-	}
-
-	public Set<Section> getSections() {
-		return sections;
-	}
-
-	public void setSections(Set<Section> sections) {
-		this.sections = sections;
 	}
 
 	public static long getSerialversionuid() {

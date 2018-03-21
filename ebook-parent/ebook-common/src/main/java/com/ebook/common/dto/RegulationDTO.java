@@ -2,7 +2,8 @@ package com.ebook.common.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 public class RegulationDTO implements Serializable {
 
@@ -17,8 +18,9 @@ public class RegulationDTO implements Serializable {
 
 	private BigDecimal regulationNumber;
 
-	private Set<SectionDTO> sections;
-
+	@JsonBackReference
+	private RegulationPartDTO regulationPart;
+	
 	public long getId() {
 		return id;
 	}
@@ -43,16 +45,15 @@ public class RegulationDTO implements Serializable {
 		this.regulationNumber = regulationNumber;
 	}
 	
-	public Set<SectionDTO> getSections() {
-		return sections;
-	}
-
-	public void setSections(Set<SectionDTO> sections) {
-		this.sections = sections;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
+	public RegulationPartDTO getRegulationPart() {
+		return regulationPart;
+	}
+	
+	public void setRegulationPart(RegulationPartDTO regulationPart) {
+		this.regulationPart = regulationPart;
+	}
 }

@@ -2,14 +2,14 @@ package com.ebook.domain.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -36,8 +36,10 @@ public class Regulation implements Serializable {
 	@Column(name = "regulation_number", nullable = false, precision = 10, scale = 2)
 	private BigDecimal regulationNumber;
 
-	@ManyToMany(mappedBy = "regulations")
-	private Set<Section> sections;
+	// bi-directional many-to-one association to Part
+	@ManyToOne
+	@JoinColumn(name = "regulation_part_id")
+	private RegulationPart regulationPart;
 
 	public Regulation() {
 	}
@@ -66,12 +68,12 @@ public class Regulation implements Serializable {
 		this.regulationHeading = regulationHeading;
 	}
 
-	public Set<Section> getSections() {
-		return sections;
+	public RegulationPart getRegulationPart() {
+		return regulationPart;
 	}
 
-	public void setSections(Set<Section> sections) {
-		this.sections = sections;
+	public void setRegulationPart(RegulationPart regulationPart) {
+		this.regulationPart = regulationPart;
 	}
 
 }
