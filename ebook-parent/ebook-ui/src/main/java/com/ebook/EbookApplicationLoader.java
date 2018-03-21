@@ -1,6 +1,5 @@
 package com.ebook;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -23,12 +22,13 @@ public class EbookApplicationLoader {
 
     private final NotificationService myService;
 
+    @Autowired
+    private PartService partService;
+    
     public EbookApplicationLoader(NotificationService myService) {
         this.myService = myService;
     }
 
-    @Autowired
-    private PartService partService;
     @GetMapping("/")
     public String home() {
 
