@@ -18,6 +18,9 @@ public class RegulationDTO implements Serializable {
 
 	private BigDecimal regulationNumber;
 
+	private String regulationContent;
+	
+	
 	@JsonBackReference
 	private RegulationPartDTO regulationPart;
 	
@@ -56,4 +59,14 @@ public class RegulationDTO implements Serializable {
 	public void setRegulationPart(RegulationPartDTO regulationPart) {
 		this.regulationPart = regulationPart;
 	}
+
+	public String getRegulationContent() {
+		return regulationContent;
+	}
+
+	public void setRegulationContent(String regulationContent) {
+		this.regulationContent = regulationContent;
+	}
+
+	
 }

@@ -13,6 +13,7 @@ public class RegulationPartDTO implements Serializable {
 	private String regulationChapterHeading;
 
 	private BigDecimal regulationChapterNumber;
+	
 
 	@JsonManagedReference
 	private Set<RegulationDTO> regulations;
@@ -52,4 +53,7 @@ public class RegulationPartDTO implements Serializable {
 	public void setRegulations(Set<RegulationDTO> regulations) {
 		this.regulations = regulations;
 	}
+
+
+	
 }

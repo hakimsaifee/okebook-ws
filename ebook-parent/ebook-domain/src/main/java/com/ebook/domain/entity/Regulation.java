@@ -36,6 +36,11 @@ public class Regulation implements Serializable {
 	@Column(name = "regulation_number", nullable = false, precision = 10, scale = 2)
 	private BigDecimal regulationNumber;
 
+	
+	@Column(name = "regulation_content", nullable = false, columnDefinition = "TEXT")
+	private String regulationContent;
+	
+	
 	// bi-directional many-to-one association to Part
 	@ManyToOne
 	@JoinColumn(name = "regulation_part_id")
@@ -74,6 +79,23 @@ public class Regulation implements Serializable {
 
 	public void setRegulationPart(RegulationPart regulationPart) {
 		this.regulationPart = regulationPart;
+	}
+
+	public String getRegulationContent() {
+		return regulationContent;
+	}
+
+	public void setRegulationContent(String regulationContent) {
+		this.regulationContent = regulationContent;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Regulation [id=").append(id).append(", regulationHeading=").append(regulationHeading)
+				.append(", regulationNumber=").append(regulationNumber).append(", regulationContent=")
+				.append(regulationContent).append(", regulationPart=").append(regulationPart).append("]");
+		return builder.toString();
 	}
 
 }
