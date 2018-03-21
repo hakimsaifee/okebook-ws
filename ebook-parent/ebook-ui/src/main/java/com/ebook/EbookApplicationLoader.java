@@ -1,6 +1,7 @@
 package com.ebook;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
@@ -39,11 +40,9 @@ public class EbookApplicationLoader {
     }
     
     @PostConstruct
-    public void init() {/*
+    public void init() {
     	
-    	PartDTO partDTO = new PartDTO();
-    	partDTO.setPartHeading("This is my part");
-    	partDTO.setPartNumber(new BigDecimal(1.1));
-    	partService.save(partDTO);    	
-    */}
+    	Collection<PartDTO> parts = partService.getAll();   
+    	System.out.println(parts);
+    }
 }
