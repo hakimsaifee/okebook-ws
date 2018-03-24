@@ -20,13 +20,13 @@ public class UserDetail implements Serializable {
 	@Column(unique = true, nullable = false)
 	private long id;
 
-	@Column(name = "eamil_id", length = 100)
-	private String eamilId;
+	@Column(name = "email_id", length = 100)
+	private String emailId;
 
 	@Column(nullable = false, length = 100)
 	private String password;
 
-	@Column(nullable = false, length = 512)
+	@Column(length = 512)
 	private String username;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -46,12 +46,12 @@ public class UserDetail implements Serializable {
 		this.id = id;
 	}
 
-	public String getEamilId() {
-		return this.eamilId;
+	public String getEmailId() {
+		return this.emailId;
 	}
 
-	public void setEamilId(String eamilId) {
-		this.eamilId = eamilId;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 
 	public String getPassword() {

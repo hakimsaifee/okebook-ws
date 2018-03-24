@@ -12,7 +12,7 @@ public class UserDetailDTO implements Serializable {
 
 	private long id;
 
-	private String eamilId;
+	private String emailId;
 
 	private String password;
 
@@ -28,12 +28,12 @@ public class UserDetailDTO implements Serializable {
 		this.id = id;
 	}
 
-	public String getEamilId() {
-		return eamilId;
+	public String getEmailId() {
+		return emailId;
 	}
 
-	public void setEamilId(String eamilId) {
-		this.eamilId = eamilId;
+	public void setEmailId(String eamilId) {
+		this.emailId = eamilId;
 	}
 
 	public String getPassword() {
