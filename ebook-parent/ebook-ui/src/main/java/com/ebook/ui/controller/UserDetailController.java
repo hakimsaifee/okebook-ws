@@ -1,6 +1,8 @@
 package com.ebook.ui.controller;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.common.dto.UserDetailDTO;
+import com.ebook.domain.entity.Role;
+import com.ebook.services.service.RoleService;
 import com.ebook.services.service.UserDetailService;
 
 @RestController // Need to include jackson formattor to get xml/json as needed.
@@ -25,6 +29,9 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
 	public UserDetailController(UserDetailService service) {
 		super(service);
 	}
+	
+	@Autowired
+	private RoleService roleService;
 
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public Collection<UserDetailDTO> listUser() {
@@ -52,5 +59,25 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
 		return userDTO;
 
 	}
+	
+	
 
+    @RequestMapping(value = "getAll", method = RequestMethod.GET)
+    public Collection<UserDetailDTO> getAll(){
+        return service.getAll();
+    }
+    
+    @RequestMapping(path = "getRoles", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public  Set<Role> getUserRolesForEmail(@RequestBody UserDetailDTO userDetailDTO) {
+		System.out.println("getUserRolesForEmail");
+		
+		com.ebook.domain.entity.UserDetail userDTO = service.getUserByUserName(userDetailDTO.getEmailId());
+		
+	
+		if (userDTO.getUserRoles()!=null && !userDTO.getUserRoles().isEmpty())
+			return userDTO.getUserRoles();
+		else
+			return new HashSet<Role>();
+	}
+	
 }

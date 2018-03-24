@@ -16,7 +16,15 @@ public class UserDetailDTO implements Serializable {
 
 	private String password;
 
-	private String username;
+	private long mobileNumber;
+	
+	private String state;
+	
+	private String city;
+	
+	private String country;
+	
+	private long zipCode;
 
 	private Set<RoleDTO> userRoles;
 
@@ -44,12 +52,45 @@ public class UserDetailDTO implements Serializable {
 		this.password = password;
 	}
 
-	public String getUsername() {
-		return username;
+
+	public long getMobileNumber() {
+		return mobileNumber;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setMobileNumber(long mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public long getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(long zipCode) {
+		this.zipCode = zipCode;
 	}
 
 	public Set<RoleDTO> getUserRoles() {

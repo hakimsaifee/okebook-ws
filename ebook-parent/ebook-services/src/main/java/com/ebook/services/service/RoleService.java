@@ -18,4 +18,9 @@ public class RoleService extends AbstractService<Role, RoleDTO, RoleRepository> 
 	public RoleService(RoleRepository repository, DozerBeanMapper dozerBeanMapper) {
 		super(repository, dozerBeanMapper);
 	}
+
+	public RoleDTO getRoleByEmailId(String emailId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

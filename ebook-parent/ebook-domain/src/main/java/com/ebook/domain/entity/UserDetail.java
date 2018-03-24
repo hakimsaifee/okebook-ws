@@ -25,10 +25,22 @@ public class UserDetail implements Serializable {
 
 	@Column(nullable = false, length = 100)
 	private String password;
-
-	@Column(length = 512)
-	private String username;
-
+	
+	@Column(nullable = false, length = 15)
+	private long mobileNumber;
+	
+	@Column(name = "state", length = 100)
+	private String state;
+	
+	@Column(name = "city", length = 100)
+	private String city;
+	
+	@Column(name = "country", length = 100)
+	private String country;
+	
+	@Column(name = "zipCode", length = 10)
+	private long zipCode;
+	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "user_role", joinColumns = {
 			@JoinColumn(name = "user_id", referencedColumnName = "id", table = "user_detail") }, inverseJoinColumns = {
@@ -62,12 +74,45 @@ public class UserDetail implements Serializable {
 		this.password = password;
 	}
 
-	public String getUsername() {
-		return this.username;
+
+	public long getMobileNumber() {
+		return mobileNumber;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setMobileNumber(long mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public long getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(long zipCode) {
+		this.zipCode = zipCode;
 	}
 
 	public Set<Role> getUserRoles() {

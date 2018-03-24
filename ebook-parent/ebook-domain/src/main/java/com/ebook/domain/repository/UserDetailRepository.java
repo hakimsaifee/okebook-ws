@@ -6,5 +6,6 @@ public interface UserDetailRepository extends AbstractRepository<UserDetail, Lon
 	
 	UserDetail findByEmailId(String userName);
 
+	
 
 }
