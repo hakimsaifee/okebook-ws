@@ -46,7 +46,7 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
 
 			}
 		} else {
-			service.save(userDetailDTO);
+			userDTO = service.save(userDetailDTO);
 
 		}
 		return userDTO;
