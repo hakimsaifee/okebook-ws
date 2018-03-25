@@ -3,6 +3,8 @@ package com.ebook.common.dto;
 import java.io.Serializable;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 public class UserDetailDTO implements Serializable {
 
 	/**
@@ -26,6 +28,7 @@ public class UserDetailDTO implements Serializable {
 	
 	private long zipCode;
 
+	@JsonBackReference
 	private Set<RoleDTO> userRoles;
 
 	public long getId() {

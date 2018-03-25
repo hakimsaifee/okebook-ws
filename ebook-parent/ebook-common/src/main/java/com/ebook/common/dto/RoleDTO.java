@@ -3,6 +3,8 @@ package com.ebook.common.dto;
 import java.io.Serializable;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 public class RoleDTO implements Serializable {
 
 	/**
@@ -14,6 +16,7 @@ public class RoleDTO implements Serializable {
 
 	private String roleType;
 
+	@JsonBackReference
 	private Set<UserDetailDTO> userDetails;
 
 	public long getId() {
