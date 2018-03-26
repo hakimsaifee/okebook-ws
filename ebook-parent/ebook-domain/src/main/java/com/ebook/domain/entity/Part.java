@@ -25,13 +25,7 @@ import org.hibernate.annotations.GenericGenerator;
 @NamedQuery(name = "Part.findAll", query = "SELECT p FROM Part p")
 public class Part implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	// @Id
-	// @SequenceGenerator(name="PART_ID_GENERATOR", sequenceName="AUTO")
-	// @GeneratedValue(strategy=GenerationType.SEQUENCE,
-	// generator="PART_ID_GENERATOR")
 	@Id
-//	@SequenceGenerator(name="PART_SEQ", initialValue=19899, allocationSize=100)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PART_GENERATOR")
 	@GenericGenerator(name = "PART_GENERATOR", strategy = "sequence", parameters = {
 			@org.hibernate.annotations.Parameter(name = "sequence", value = "PART_SEQ" )  })
@@ -46,7 +40,7 @@ public class Part implements Serializable {
 
 	// bi-directional many-to-one association to Section
 	@OneToMany(mappedBy = "part",cascade=CascadeType.ALL)
-	private Set<Section> sections;
+	private Set<Chapter> chapters;
 
 	public Part() {
 	}
@@ -76,26 +70,26 @@ public class Part implements Serializable {
 		this.partNumber = partNumber;
 	}
 	
-	public Set<Section> getSections() {
-		return this.sections;
+	public Set<Chapter> getChapters() {
+		return this.chapters;
 	}
 
-	public void setSections(Set<Section> sections) {
-		this.sections = sections;
+	public void setChapters(Set<Chapter> chapters) {
+		this.chapters = chapters;
 	}
 
-	public Section addSection(Section section) {
-		getSections().add(section);
-		section.setPart(this);
+	public Chapter addChapter(Chapter chapter) {
+		getChapters().add(chapter);
+		chapter.setPart(this);
 
-		return section;
+		return chapter;
 	}
 
-	public Section removeSection(Section section) {
-		getSections().remove(section);
-		section.setPart(null);
+	public Chapter removeChapter(Chapter chapter) {
+		getChapters().remove(chapter);
+		chapter.setPart(null);
 
-		return section;
+		return chapter;
 	}
 
 }

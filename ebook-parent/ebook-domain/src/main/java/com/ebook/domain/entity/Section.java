@@ -2,18 +2,13 @@ package com.ebook.domain.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
@@ -41,22 +36,9 @@ public class Section implements Serializable {
 	@Column(name = "section_number", nullable = false, precision = 10, scale = 2)
 	private BigDecimal sectionNumber;
 
-	/*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "section_regulation", joinColumns = {
-			@JoinColumn(name = "section_id", referencedColumnName = "id", table = "section") }, inverseJoinColumns = {
-					@JoinColumn(name = "regulation_id", referencedColumnName = "id", table = "regulation") })
-	private Set<Regulation> regulations;
-
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "section_rule", joinColumns = {
-			@JoinColumn(name = "section_id", referencedColumnName = "id", table = "section") }, inverseJoinColumns = {
-					@JoinColumn(name = "rule_id", referencedColumnName = "id", table = "rule") })
-	private Set<Rule> rules;*/
-
-	// bi-directional many-to-one association to Part
 	@ManyToOne
-	@JoinColumn(name = "part_id")
-	private Part part;
+	@JoinColumn(name = "chapter_id")
+	private Chapter chapter;
 
 	public Section() {
 	}
@@ -86,12 +68,12 @@ public class Section implements Serializable {
 		this.sectionNumber = sectionNumber;
 	}
 
-	public Part getPart() {
-		return this.part;
+	public Chapter getChapter() {
+		return this.chapter;
 	}
 
-	public void setPart(Part part) {
-		this.part = part;
+	public void setChapter(Chapter chapter) {
+		this.chapter = chapter;
 	}
 
 }

@@ -20,7 +20,7 @@ public class PartDTO implements Serializable {
 	private BigDecimal partNumber;
 
 	@JsonManagedReference
-	private Set<SectionDTO> sections;
+	private Set<ChapterDTO> chapters;
 
 	public long getId() {
 		return id;
@@ -46,11 +46,11 @@ public class PartDTO implements Serializable {
 		this.partNumber = partNumber;
 	}
 
-	public Set<SectionDTO> getSections() {
-		return sections;
+	public Set<ChapterDTO> getChapters() {
+		return chapters;
 	}
 
-	public void setSections(Set<SectionDTO> sections) {
-		this.sections = sections;
+	public void setChapters(Set<ChapterDTO> chapters) {
+		this.chapters = chapters;
 	}
 }
