@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.PartDTO;
-import com.ebook.common.dto.SectionDTO;
 import com.ebook.domain.entity.Part;
 import com.ebook.services.service.PartService;
 import com.ebook.ui.mail.AWSSendMail;
