@@ -53,7 +53,7 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 					}
 					partDTO = service.save(partDTO);
 					
-					AWSSendMail.sendEmail();
+					//AWSSendMail.sendEmail();
 					System.out.println("Saved DTO" + partDTO);
 				}
 			}
