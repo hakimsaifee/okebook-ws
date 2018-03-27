@@ -45,7 +45,7 @@ public class UserDetail implements Serializable {
 	@JoinTable(name = "user_role", joinColumns = {
 			@JoinColumn(name = "user_id", referencedColumnName = "id", table = "user_detail") }, inverseJoinColumns = {
 					@JoinColumn(name = "role_id", referencedColumnName = "id", table = "role") })
-	private Set<Role> userRoles;
+	private Set<Role> roles;
 
 	public UserDetail() {
 	}
@@ -115,12 +115,12 @@ public class UserDetail implements Serializable {
 		this.zipCode = zipCode;
 	}
 
-	public Set<Role> getUserRoles() {
-		return userRoles;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setUserRoles(Set<Role> userRoles) {
-		this.userRoles = userRoles;
+	public void setRoles(Set<Role> userRoles) {
+		this.roles = userRoles;
 	}
 
 }

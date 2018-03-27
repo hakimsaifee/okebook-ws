@@ -3,7 +3,7 @@ package com.ebook.common.dto;
 import java.io.Serializable;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 public class UserDetailDTO implements Serializable {
 
@@ -28,7 +28,8 @@ public class UserDetailDTO implements Serializable {
 	
 	private long zipCode;
 
-	private Set<RoleDTO> userRoles;
+//	@JsonManagedReference
+	private Set<RoleDTO> roles;
 
 	public long getId() {
 		return id;
@@ -95,16 +96,12 @@ public class UserDetailDTO implements Serializable {
 		this.zipCode = zipCode;
 	}
 
-	public Set<RoleDTO> getUserRoles() {
-		return userRoles;
+	public Set<RoleDTO> getRoles() {
+		return roles;
 	}
 
-	public void setUserRoles(Set<RoleDTO> userRoles) {
-		this.userRoles = userRoles;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public void setRoles(Set<RoleDTO> userRoles) {
+		this.roles = userRoles;
 	}
 
 }

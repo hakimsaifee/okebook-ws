@@ -23,9 +23,12 @@ public class Role implements Serializable {
 	@Column(name = "role_type", nullable = false, length = 100)
 	private String roleType;
 
-	@ManyToMany(mappedBy = "userRoles")
+	@ManyToMany(mappedBy = "roles")
 	private Set<UserDetail> userDetails;
 
+	@Transient
+	private String itemName;
+	
 	public Role() {
 	}
 
@@ -51,6 +54,14 @@ public class Role implements Serializable {
 	
 	public void setUserDetails(Set<UserDetail> userDetails) {
 		this.userDetails = userDetails;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 
 }
