@@ -19,7 +19,7 @@ import com.ebook.services.service.PartService;
 public class ChapterController extends AbstractController<ChapterDTO, ChapterService>  {
 	public static final String CHAPTER = "chapter";
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PartController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ChapterController.class);
 
 	
 	@Autowired

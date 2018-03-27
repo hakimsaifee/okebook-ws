@@ -63,6 +63,7 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 		return convertDaoToDto(savedEntity, dtoClazz);
 	}
 
+	@Transactional
 	public V update(V dto) {
 		return save(dto);
 	}

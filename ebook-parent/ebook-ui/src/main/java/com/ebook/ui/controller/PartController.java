@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.PartDTO;
-import com.ebook.domain.entity.Part;
 import com.ebook.services.service.PartService;
-import com.ebook.ui.mail.AWSSendMail;
 
 
 @RestController // Need to include jackson formattor to get xml/json as needed.
@@ -33,8 +31,8 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 	@RequestMapping(path = "savePart", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 		public PartDTO savePart(@RequestBody PartDTO partDTO) {
 		LOGGER.debug("Saving Part details ");
-			
-			Part  part;
+		
+			PartDTO  part;
 			if(partDTO !=null && partDTO.getPartNumber() !=null) {
 				part = service.getPartByPartNumber(partDTO.getPartNumber());
 				if(part !=null) {
@@ -76,10 +74,11 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 	
 	
 	@RequestMapping(path = "partHeading", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public  Part getPartHeading(@RequestBody PartDTO partNumber) {
+	public  PartDTO getPartHeading(@RequestBody PartDTO partNumber) {
 		System.out.println("getPartHeading");
 		
-		Part partDto = service.getPartByPartNumber(partNumber.getPartNumber());
+		PartDTO partDto = service.getPartByPartNumber(partNumber.getPartNumber());
+		
 		
 		System.out.println("partDTO list is " + partDto);
 	
