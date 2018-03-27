@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
 import com.ebook.services.service.NotificationService;
@@ -35,11 +36,11 @@ private NotificationService ns;
     	PartDTO partDto = new PartDTO();
     	partDto.setPartHeading("Part test");
     	partDto.setPartNumber(new BigDecimal(2.1));
-    	Set<SectionDTO> sections = new HashSet<>();
+    	Set<ChapterDTO> sections = new HashSet<>();
     	SectionDTO sectionDTO = new SectionDTO();
     	sectionDTO.setSectionNumber(new BigDecimal("223"));
     	sectionDTO.setSectionHeading("this is section");
-		partDto.setSections(sections);
+		partDto.setChapters(sections);
 		
 //		partService.save(partDto);
     }

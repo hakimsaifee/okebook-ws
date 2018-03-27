@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ebook.common.dto.PartDTO;
+import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.SectionDTO;
-import com.ebook.domain.entity.Part;
-import com.ebook.services.service.PartService;
+import com.ebook.domain.entity.Chapter;
+import com.ebook.services.service.ChapterService;
 import com.ebook.services.service.SectionService;
 
 
@@ -31,35 +31,41 @@ public class SectionController extends AbstractController<SectionDTO, SectionSer
 	}
 	
 	@Autowired
-	public PartService partService;
-	
-	@RequestMapping(path = "saveSection", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public PartDTO saveSection(@RequestBody PartDTO dto) {
-		System.out.println("Update");
-		PartDTO partDTO = null;
-		
-		if(dto.getPartNumber() !=null) {
-			Part  part = partService.getPartByPartNumber(dto.getPartNumber());
-			if(part !=null) {
-				LOGGER.info("\"Part Already Exists {} , Adding Sections ",part.getId());
+	private ChapterService chapterService;
 
-				Set<SectionDTO> sectionDTOs = dto.getSections();
+	@RequestMapping(path = "saveSections", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ChapterDTO saveChapter(@RequestBody ChapterDTO chapterDTO) {
+		
+		if(chapterDTO.getChapterNumber() !=null) {
+			Chapter chapter = null;
+			try {
+				chapter = chapterService.getChapterByChapterNumber(chapterDTO.getChapterNumber());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(chapter !=null) {
+				LOGGER.info("Chapter Already Exists {} , Adding Sections ",chapter.getId());
+
+				Set<SectionDTO> sectionDTOs = chapterDTO.getSections();
 				
 				if(sectionDTOs !=null && !sectionDTOs.isEmpty()) {
-					
 					for(SectionDTO sectionDTO :sectionDTOs) {
-						sectionDTO.setPart(partDTO);
+						sectionDTO.setChapter(chapterDTO);
 						sectionDTO = service.save(sectionDTO);
 					}
 				
 				}
+				
 			}else {
-				System.out.println("Part Doesnt Exists , Hence Wont Add sections");
+				LOGGER.error("Chapter Doesnt Exist {} , Hence Wont add Sections ");
 				
 			}
+		}else {
+			LOGGER.error("Invalid input - ChapterDTO");
 		}
-		return partDTO;
+		return chapterDTO;
 		
 	}
+	
 	
 }

@@ -28,7 +28,6 @@ public class UserDetailDTO implements Serializable {
 	
 	private long zipCode;
 
-	@JsonBackReference
 	private Set<RoleDTO> userRoles;
 
 	public long getId() {

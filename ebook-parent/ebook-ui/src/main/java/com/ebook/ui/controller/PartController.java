@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.PartDTO;
-import com.ebook.common.dto.SectionDTO;
 import com.ebook.domain.entity.Part;
 import com.ebook.services.service.PartService;
 import com.ebook.ui.mail.AWSSendMail;
@@ -43,17 +43,17 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 					LOGGER.info("Part Doesnt Exists , Creating a new Entry");
 					
 					//Checking is Sections Exists , If yes do a explicit mapping so that we have part_Id relation in db
-					if(partDTO.getSections() !=null && !partDTO.getSections().isEmpty()) {
-						Set<SectionDTO> sectionDTOs = partDTO.getSections();
+					if(partDTO.getChapters() !=null && !partDTO.getChapters().isEmpty()) {
+						Set<ChapterDTO> chapterDTOs = partDTO.getChapters();
 						
-						for(SectionDTO sectionDTO :sectionDTOs) {
-							sectionDTO.setPart(partDTO);
+						for(ChapterDTO chapterDTO :chapterDTOs) {
+							chapterDTO.setPart(partDTO);
 						}
 					
 					}
 					partDTO = service.save(partDTO);
 					
-					AWSSendMail.sendEmail();
+					//AWSSendMail.sendEmail();
 					System.out.println("Saved DTO" + partDTO);
 				}
 			}

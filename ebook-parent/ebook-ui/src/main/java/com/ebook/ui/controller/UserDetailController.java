@@ -69,7 +69,7 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
     
     @RequestMapping(path = "getRoles", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public  Set<Role> getUserRolesForEmail(@RequestBody UserDetailDTO userDetailDTO) {
-		System.out.println("getUserRolesForEmail");
+		System.out.println("getUserRolesForEmail"+userDetailDTO);
 		
 		com.ebook.domain.entity.UserDetail userDTO = service.getUserByUserName(userDetailDTO.getEmailId());
 		
@@ -79,7 +79,4 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
 		else
 			return new HashSet<Role>();
 	}
-	
-    
-    
 }
