@@ -36,6 +36,9 @@ public class Section implements Serializable {
 	@Column(name = "section_number", nullable = false, precision = 10, scale = 2)
 	private BigDecimal sectionNumber;
 
+	@Column(name = "section_detail", nullable = false, columnDefinition="TEXT")
+	private String sectionDetail;
+	
 	@ManyToOne
 	@JoinColumn(name = "chapter_id")
 	private Chapter chapter;
@@ -53,11 +56,11 @@ public class Section implements Serializable {
 
 
 	public void setSectionHeading(String sectionHeading) {
-		this.sectionHeading = sectionHeading;
+		this.sectionDetail = sectionHeading;
 	}
 	
 	public String getSectionHeading() {
-		return sectionHeading;
+		return sectionDetail;
 	}
 
 	public BigDecimal getSectionNumber() {
@@ -75,5 +78,15 @@ public class Section implements Serializable {
 	public void setChapter(Chapter chapter) {
 		this.chapter = chapter;
 	}
+
+	public String getSectionDetail() {
+		return sectionDetail;
+	}
+
+	public void setSectionDetail(String sectionDetail) {
+		this.sectionDetail = sectionDetail;
+	}
+	
+	
 
 }

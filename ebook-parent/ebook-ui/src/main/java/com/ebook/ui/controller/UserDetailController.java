@@ -1,5 +1,6 @@
 package com.ebook.ui.controller;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ebook.common.dto.RoleDTO;
 import com.ebook.common.dto.UserDetailDTO;
-import com.ebook.domain.entity.Role;
-import com.ebook.services.service.RoleService;
 import com.ebook.services.service.UserDetailService;
 
 @RestController // Need to include jackson formattor to get xml/json as needed.
@@ -30,8 +30,6 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
 		super(service);
 	}
 	
-	@Autowired
-	private RoleService roleService;
 
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public Collection<UserDetailDTO> listUser() {
@@ -42,21 +40,56 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
 	public UserDetailDTO registerUser(@RequestBody UserDetailDTO userDetailDTO) {
 
 		System.out.println("Register User");
-		UserDetailDTO userDTO = null;
+		UserDetailDTO userEntityDTO = null;
 
 		if (userDetailDTO.getEmailId() != null && userDetailDTO.getEmailId().isEmpty()) {
 
-			com.ebook.domain.entity.UserDetail userDetail = service.getUserByUserName(userDetailDTO.getEmailId());
+			userEntityDTO = service.getUserByUserName(userDetailDTO.getEmailId());
 
-			if (userDetail != null) {
-				LOGGER.info("User Name Already exists {}", userDetail.getEmailId());
+			if (userEntityDTO != null) {
+				LOGGER.info("User Name Already exists {}", userEntityDTO.getEmailId());
 
 			}
 		} else {
-			userDTO = service.save(userDetailDTO);
+			userEntityDTO = service.save(userDetailDTO);
 
 		}
-		return userDTO;
+		return userDetailDTO;
+
+	}
+	
+	
+	@RequestMapping(path = "updateUser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public UserDetailDTO updateUser(@RequestBody UserDetailDTO userDetailDTO) {
+
+		System.out.println("Register User");
+		UserDetailDTO userEntityDTO = null;
+
+		if (userDetailDTO.getEmailId() != null && !userDetailDTO.getEmailId().isEmpty()) {
+
+			userEntityDTO = service.getUserByUserName(userDetailDTO.getEmailId());
+
+			if (userEntityDTO != null) {
+				LOGGER.info("User Name Already exists {},Adding Roles", userEntityDTO.getEmailId());
+				if(userDetailDTO.getRoles() !=null && !userDetailDTO.getRoles().isEmpty()) {
+					Set<RoleDTO> userRoles = userDetailDTO.getRoles();
+					for(RoleDTO roleDTO : userRoles) {
+						roleDTO.setRoleType(roleDTO.getItemName());
+						roleDTO.setUserDetails(new HashSet<>(Arrays.asList(userEntityDTO)));
+						}
+					
+					userEntityDTO.setRoles(userRoles);
+					
+					userEntityDTO = service.update(userEntityDTO);
+				}else {
+					LOGGER.error("User Name {} doesnt exist,wont add Roles", userEntityDTO.getEmailId());
+				}
+			}
+		} else {
+			LOGGER.error("Invalid input");
+
+		}
+		return userEntityDTO;
 
 	}
 	
@@ -68,15 +101,15 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
     }
     
     @RequestMapping(path = "getRoles", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public  Set<Role> getUserRolesForEmail(@RequestBody UserDetailDTO userDetailDTO) {
+	public  Set<RoleDTO> getUserRolesForEmail(@RequestBody UserDetailDTO userDetailDTO) {
 		System.out.println("getUserRolesForEmail"+userDetailDTO);
 		
-		com.ebook.domain.entity.UserDetail userDTO = service.getUserByUserName(userDetailDTO.getEmailId());
+		UserDetailDTO userDTO = service.getUserByUserName(userDetailDTO.getEmailId());
 		
 	
-		if (userDTO.getUserRoles()!=null && !userDTO.getUserRoles().isEmpty())
-			return userDTO.getUserRoles();
+		if (userDTO.getRoles()!=null && !userDTO.getRoles().isEmpty())
+			return userDTO.getRoles();
 		else
-			return new HashSet<Role>();
+			return null;
 	}
 }

@@ -21,8 +21,13 @@ public class ChapterService extends AbstractService<Chapter, ChapterDTO, Chapter
 		super(repository, dozerBeanMapper);
 	}
 	
-	public Chapter getChapterByChapterNumber(BigDecimal chapterNumber) {
-		return repository.findBychapterNumber(chapterNumber);
+	public ChapterDTO getChapterByChapterNumber(BigDecimal chapterNumber) {
+		Chapter findBychapterNumber = repository.findBychapterNumber(chapterNumber);
+		
+		if(findBychapterNumber !=null) {
+			return beanMapper.map(findBychapterNumber, ChapterDTO.class);
+		}
+		return null;
 	}
 	
 }

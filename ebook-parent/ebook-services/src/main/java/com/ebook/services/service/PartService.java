@@ -21,8 +21,13 @@ public class PartService extends AbstractService<Part, PartDTO, PartRepository>{
 		super(repository, dozerBeanMapper);
 	}
 
-	public Part getPartByPartNumber(BigDecimal partNumber) {
-		return repository.findBypartNumber(partNumber);
+	public PartDTO getPartByPartNumber(BigDecimal partNumber) {
+		Part findBypartNumber = repository.findBypartNumber(partNumber);
+		
+		if(findBypartNumber !=null) {
+			return beanMapper.map(findBypartNumber, PartDTO.class);
+		}
+		return null;
 	}
 	
 	

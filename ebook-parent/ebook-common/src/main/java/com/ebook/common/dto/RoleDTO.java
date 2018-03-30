@@ -3,7 +3,7 @@ package com.ebook.common.dto;
 import java.io.Serializable;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 public class RoleDTO implements Serializable {
 
@@ -19,16 +19,7 @@ public class RoleDTO implements Serializable {
 	private String itemName;
 	
 	
-
-	public String getItemName() {
-		return itemName;
-	}
-
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-
-	@JsonIgnore 
+	@JsonBackReference
 	private Set<UserDetailDTO> userDetails;
 
 	public long getId() {
@@ -47,6 +38,8 @@ public class RoleDTO implements Serializable {
 		this.roleType = roleType;
 	}
 
+
+
 	public Set<UserDetailDTO> getUserDetails() {
 		return userDetails;
 	}
@@ -55,8 +48,12 @@ public class RoleDTO implements Serializable {
 		this.userDetails = userDetails;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 
 }

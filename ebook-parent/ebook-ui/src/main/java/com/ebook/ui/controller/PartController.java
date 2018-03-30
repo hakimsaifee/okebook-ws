@@ -36,8 +36,8 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 	@RequestMapping(path = "savePart", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 		public PartDTO savePart(@RequestBody PartDTO partDTO) {
 		LOGGER.debug("Saving Part details ");
-			
-			Part  part;
+		
+			PartDTO  part;
 			if(partDTO !=null && partDTO.getPartNumber() !=null) {
 				part = service.getPartByPartNumber(partDTO.getPartNumber());
 				if(part !=null) {
@@ -79,10 +79,11 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 	
 	
 	@RequestMapping(path = "partHeading", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public  Part getPartHeading(@RequestBody PartDTO partNumber) {
+	public  PartDTO getPartHeading(@RequestBody PartDTO partNumber) {
 		System.out.println("getPartHeading");
 		
-		Part partDto = service.getPartByPartNumber(partNumber.getPartNumber());
+		PartDTO partDto = service.getPartByPartNumber(partNumber.getPartNumber());
+		
 		
 		System.out.println("partDTO list is " + partDto);
 	

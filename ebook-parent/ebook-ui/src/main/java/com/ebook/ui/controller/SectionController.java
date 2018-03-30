@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.SectionDTO;
-import com.ebook.domain.entity.Chapter;
 import com.ebook.services.service.ChapterService;
 import com.ebook.services.service.SectionService;
 
@@ -23,7 +22,7 @@ import com.ebook.services.service.SectionService;
 public class SectionController extends AbstractController<SectionDTO, SectionService>  {
 	public static final String Section = "section";
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PartController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SectionController.class);
 	
 	@Autowired
 	public SectionController(SectionService service) {
@@ -35,27 +34,24 @@ public class SectionController extends AbstractController<SectionDTO, SectionSer
 
 	@RequestMapping(path = "saveSections", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ChapterDTO saveChapter(@RequestBody ChapterDTO chapterDTO) {
-		
+		ChapterDTO chapEntityDTO = null;
 		if(chapterDTO.getChapterNumber() !=null) {
-			Chapter chapter = null;
 			try {
-				chapter = chapterService.getChapterByChapterNumber(chapterDTO.getChapterNumber());
+				chapEntityDTO = chapterService.getChapterByChapterNumber(chapterDTO.getChapterNumber());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if(chapter !=null) {
-				LOGGER.info("Chapter Already Exists {} , Adding Sections ",chapter.getId());
+			if(chapEntityDTO !=null) {
+				LOGGER.info("Chapter Already Exists {} , Adding Sections ",chapEntityDTO.getId());
 
 				Set<SectionDTO> sectionDTOs = chapterDTO.getSections();
-				
+				chapEntityDTO.setSections(sectionDTOs);
 				if(sectionDTOs !=null && !sectionDTOs.isEmpty()) {
 					for(SectionDTO sectionDTO :sectionDTOs) {
-						sectionDTO.setChapter(chapterDTO);
-						sectionDTO = service.save(sectionDTO);
+						sectionDTO.setChapter(chapEntityDTO);
 					}
-				
 				}
-				
+				chapEntityDTO = chapterService.update(chapEntityDTO);
 			}else {
 				LOGGER.error("Chapter Doesnt Exist {} , Hence Wont add Sections ");
 				
@@ -63,7 +59,7 @@ public class SectionController extends AbstractController<SectionDTO, SectionSer
 		}else {
 			LOGGER.error("Invalid input - ChapterDTO");
 		}
-		return chapterDTO;
+		return chapEntityDTO;
 		
 	}
 	

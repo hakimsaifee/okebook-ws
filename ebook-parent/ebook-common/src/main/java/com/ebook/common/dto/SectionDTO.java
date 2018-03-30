@@ -17,6 +17,9 @@ public class SectionDTO implements Serializable {
 	private String sectionHeading;
 
 	private BigDecimal sectionNumber;
+	
+	private String sectionDetail;
+
 
 	@JsonBackReference
 	private ChapterDTO chapter;
@@ -54,8 +57,14 @@ public class SectionDTO implements Serializable {
 		this.chapter = chapter;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getSectionDetail() {
+		return sectionDetail;
 	}
+
+	public void setSectionDetail(String sectionDetail) {
+		this.sectionDetail = sectionDetail;
+	}
+	
+	
 
 }

@@ -19,7 +19,12 @@ public class UserDetailService extends AbstractService<UserDetail, UserDetailDTO
 		super(repository, dozerBeanMapper);
 	}
 	
-	public UserDetail getUserByUserName(String emailId) {
-		return repository.findByEmailId(emailId);
+	public UserDetailDTO getUserByUserName(String emailId) {
+		UserDetail findByEmailId = repository.findByEmailId(emailId);
+		
+		if(findByEmailId !=null) {
+			return beanMapper.map(findByEmailId, UserDetailDTO.class);
+		}
+		return null;
 	}
 }
