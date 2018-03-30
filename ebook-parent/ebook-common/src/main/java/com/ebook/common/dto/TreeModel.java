@@ -14,6 +14,11 @@ public class TreeModel {
 		return value;
 	}
 
+	@Override
+	public String toString() {
+		return "TreeModel [value=" + value + ", icon=" + icon + ", children=" + children + "]";
+	}
+
 	public void setValue(String value) {
 		this.value = value;
 	}
