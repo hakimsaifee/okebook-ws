@@ -1,5 +1,7 @@
 package com.ebook.ui.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -14,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.PartDTO;
+import com.ebook.common.dto.SectionDTO;
+import com.ebook.common.dto.TreeModel;
 import com.ebook.domain.entity.Part;
 import com.ebook.services.service.PartService;
-import com.ebook.ui.mail.AWSSendMail;
 
 
 @RestController // Need to include jackson formattor to get xml/json as needed.
@@ -86,4 +89,54 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 		return partDto;
 	}
 	
+	@RequestMapping(path = "getAllParts", produces = MediaType.APPLICATION_JSON_VALUE)
+	public TreeModel getAllParts() {
+		TreeModel root = new TreeModel();
+		List<TreeModel> treeModels = null;
+		Collection<PartDTO> elements = service.getAll();
+		if (elements != null && !elements.isEmpty()) {
+			treeModels = new ArrayList<>();
+			for (PartDTO partDTO : elements) {
+				TreeModel tree = new TreeModel();
+				mapPartToTreeModel(partDTO, tree);
+				treeModels.add(tree);
+			}
+		}
+		root.setChildren(treeModels);
+		return root;
+	}
+
+	private void mapPartToTreeModel(PartDTO partDTO, TreeModel tree) {
+		tree.setValue("Part " + partDTO.getPartNumber() + " | " + partDTO.getPartHeading());
+		Set<ChapterDTO> chapters = partDTO.getChapters();
+		if(chapters != null && !chapters.isEmpty()) {
+			List<TreeModel> chaptersTree = new ArrayList<>();
+			for (ChapterDTO chapterDTO : chapters) {
+				TreeModel chapterModel = new TreeModel();
+				mapChapterToTreeModel(chapterDTO,chapterModel);
+				chaptersTree.add(chapterModel);
+			}
+			tree.setChildren(chaptersTree);
+		}
+	}
+
+	private void mapChapterToTreeModel(ChapterDTO chapterDTO, TreeModel chapterTree) {
+		chapterTree.setValue("Chapter " + chapterDTO.getChapterNumber() + " | " + chapterDTO.getChapterHeading());
+		
+		Set<SectionDTO> sections = chapterDTO.getSections();
+		if(sections != null && !sections.isEmpty()) {
+			List<TreeModel> sectionsTree = new ArrayList<>();
+			for (SectionDTO sectionDTO : sections) {
+				TreeModel sectionModel = new TreeModel();
+				mapChapterToTreeModel(sectionDTO,sectionModel);
+				sectionsTree.add(sectionModel);
+			}
+			chapterTree.setChildren(sectionsTree);
+		}
+	}
+
+	private void mapChapterToTreeModel(SectionDTO sectionDTO, TreeModel sectionTree) {
+		sectionTree.setValue("Section " + sectionDTO.getSectionNumber() + " | " + sectionDTO.getSectionHeading());
+	}
+
 }
