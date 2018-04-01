@@ -1,11 +1,15 @@
 package com.ebook.common.dto;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserDetailDTO implements Serializable {
+import net.minidev.json.annotate.JsonIgnore;
+
+public class UserDetailDTO implements Serializable, UserDetails {
 
 	/**
 	 * 
@@ -102,6 +106,42 @@ public class UserDetailDTO implements Serializable {
 
 	public void setRoles(Set<RoleDTO> userRoles) {
 		this.roles = userRoles;
+	}
+
+	@JsonIgnore
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.emailId;
+	}
+
+	@JsonIgnore
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@JsonIgnore
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@JsonIgnore
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@JsonIgnore
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.ebook.ui.controller;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,13 +32,16 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
 		super(service);
 	}
 	
+	@Autowired
+	private BCryptPasswordEncoder bcryptEncoder;
+	
 
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public Collection<UserDetailDTO> listUser() {
 		return service.getAll();
 	}
 
-	@RequestMapping(path = "register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserDetailDTO registerUser(@RequestBody UserDetailDTO userDetailDTO) {
 
 		System.out.println("Register User");
@@ -51,6 +56,7 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
 
 			}
 		} else {
+			userDetailDTO.setPassword(bcryptEncoder.encode(userDetailDTO.getPassword()));
 			userEntityDTO = service.save(userDetailDTO);
 
 		}
@@ -111,5 +117,11 @@ public class UserDetailController extends AbstractController<UserDetailDTO, User
 			return userDTO.getRoles();
 		else
 			return null;
+	}
+    
+    @RequestMapping("/login")
+	public Principal user(Principal principal) {
+		System.out.println("user logged "+principal);
+		return principal;
 	}
 }

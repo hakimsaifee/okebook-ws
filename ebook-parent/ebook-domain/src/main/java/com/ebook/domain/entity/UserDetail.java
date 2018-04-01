@@ -41,7 +41,7 @@ public class UserDetail implements Serializable {
 	@Column(name = "zipCode", length = 10)
 	private long zipCode;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = {
 			@JoinColumn(name = "user_id", referencedColumnName = "id", table = "user_detail") }, inverseJoinColumns = {
 					@JoinColumn(name = "role_id", referencedColumnName = "id", table = "role") })
