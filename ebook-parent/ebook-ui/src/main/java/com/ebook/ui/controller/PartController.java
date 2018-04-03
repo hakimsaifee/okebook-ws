@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,12 +19,12 @@ import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
 import com.ebook.common.dto.TreeModel;
-import com.ebook.domain.entity.Part;
 import com.ebook.services.service.PartService;
 
 
 @RestController // Need to include jackson formattor to get xml/json as needed.
 @RequestMapping(value = PartController.PART)
+@CrossOrigin(origins="*", maxAge = 3600)
 public class PartController extends AbstractController<PartDTO, PartService>  {
 	public static final String PART = "part";
 
@@ -90,7 +91,7 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 		return partDto;
 	}
 	
-	@RequestMapping(path = "getAllParts", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path = "get/getAllParts", produces = MediaType.APPLICATION_JSON_VALUE)
 	public TreeModel getAllParts() {
 		TreeModel root = new TreeModel();
 		List<TreeModel> treeModels = null;
@@ -109,6 +110,7 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 
 	private void mapPartToTreeModel(PartDTO partDTO, TreeModel tree) {
 		tree.setValue("Part " + partDTO.getPartNumber() + " | " + partDTO.getPartHeading());
+		tree.setAdditionalData("PART");
 		Set<ChapterDTO> chapters = partDTO.getChapters();
 		if(chapters != null && !chapters.isEmpty()) {
 			List<TreeModel> chaptersTree = new ArrayList<>();
@@ -123,7 +125,7 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 
 	private void mapChapterToTreeModel(ChapterDTO chapterDTO, TreeModel chapterTree) {
 		chapterTree.setValue("Chapter " + chapterDTO.getChapterNumber() + " | " + chapterDTO.getChapterHeading());
-		
+		chapterTree.setAdditionalData("CHAPTER");
 		Set<SectionDTO> sections = chapterDTO.getSections();
 		if(sections != null && !sections.isEmpty()) {
 			List<TreeModel> sectionsTree = new ArrayList<>();
@@ -137,6 +139,7 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 	}
 
 	private void mapChapterToTreeModel(SectionDTO sectionDTO, TreeModel sectionTree) {
+		sectionTree.setAdditionalData("SECTION");
 		sectionTree.setValue("Section " + sectionDTO.getSectionNumber() + " | " + sectionDTO.getSectionHeading());
 	}
 

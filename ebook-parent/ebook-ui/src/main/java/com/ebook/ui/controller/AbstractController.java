@@ -29,7 +29,7 @@ public abstract class AbstractController<V, E extends AbstractService<?, V, ? ex
 		return service.getById(id);
 	}
 
-	@RequestMapping(path = "getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path = "get/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<V> getAll() {
 		Collection<V> elements = service.getAll();
 		return elements;
@@ -47,7 +47,7 @@ public abstract class AbstractController<V, E extends AbstractService<?, V, ? ex
 		return service.update(dto);
 	}
 
-	@RequestMapping(path = "getAll/{pageNumber}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path = "get/getAll/{pageNumber}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public AbstractPageWrapper<V> getAllPagedElements(@PathVariable("pageNumber") int pageNumber,
 			@PathVariable("pageSize") int pageSize) {
 		System.out.println("Inside get all");

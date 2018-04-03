@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import com.ebook.services.service.RegulationService;
 
 @RestController // Need to include jackson formattor to get xml/json as needed.
 @RequestMapping(value = RegulationController.REGULATION)
+@CrossOrigin(origins="*", maxAge = 3600)
 public class RegulationController extends AbstractController<RegulationDTO, RegulationService>  {
 	public static final String REGULATION = "regulation";
 

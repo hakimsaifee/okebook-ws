@@ -9,6 +9,8 @@ public class TreeModel {
 	private String icon;
 
 	private List<TreeModel> children;
+	
+	private String additionalData;
 
 	public String getValue() {
 		return value;
@@ -39,4 +41,11 @@ public class TreeModel {
 		this.children = children;
 	}
 
+	public String getAdditionalData() {
+		return additionalData;
+	}
+	
+	public void setAdditionalData(String additionalData) {
+		this.additionalData = additionalData;
+	}
 }
