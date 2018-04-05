@@ -109,7 +109,7 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 	}
 
 	private void mapPartToTreeModel(PartDTO partDTO, TreeModel tree) {
-		tree.setValue("Part " + partDTO.getPartNumber() + " | " + partDTO.getPartHeading());
+		tree.setName("Part " + partDTO.getPartNumber() + " | " + partDTO.getPartHeading());
 		tree.setAdditionalData("PART");
 		Set<ChapterDTO> chapters = partDTO.getChapters();
 		if(chapters != null && !chapters.isEmpty()) {
@@ -124,7 +124,7 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 	}
 
 	private void mapChapterToTreeModel(ChapterDTO chapterDTO, TreeModel chapterTree) {
-		chapterTree.setValue("Chapter " + chapterDTO.getChapterNumber() + " | " + chapterDTO.getChapterHeading());
+		chapterTree.setName("Chapter " + chapterDTO.getChapterNumber() + " | " + chapterDTO.getChapterHeading());
 		chapterTree.setAdditionalData("CHAPTER");
 		Set<SectionDTO> sections = chapterDTO.getSections();
 		if(sections != null && !sections.isEmpty()) {
@@ -140,7 +140,7 @@ public class PartController extends AbstractController<PartDTO, PartService>  {
 
 	private void mapChapterToTreeModel(SectionDTO sectionDTO, TreeModel sectionTree) {
 		sectionTree.setAdditionalData("SECTION");
-		sectionTree.setValue("Section " + sectionDTO.getSectionNumber() + " | " + sectionDTO.getSectionHeading());
+		sectionTree.setName("Section " + sectionDTO.getSectionNumber() + " | " + sectionDTO.getSectionHeading());
 	}
 
 }

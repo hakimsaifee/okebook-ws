@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,6 +22,8 @@ import com.ebook.services.service.PartService;
 @RestController
 public class EbookApplicationLoader {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(EbookApplicationLoader.class);
+	
     private final NotificationService myService;
 
     @Autowired
@@ -37,6 +41,7 @@ public class EbookApplicationLoader {
 
     public static void main(String[] args) {
         SpringApplication.run(EbookApplicationLoader.class, args);
+        LOGGER.info("Loaded Ebook Application.");
     }
     
     @PostConstruct
