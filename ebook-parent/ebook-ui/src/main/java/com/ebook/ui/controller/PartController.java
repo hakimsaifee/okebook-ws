@@ -75,7 +75,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 		return partDTOList;
 	}
 
-	@RequestMapping(path = "editPart", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path = "edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public PartDTO editPart(@RequestBody PartDTO partDTO) {
 	LOGGER.debug("Editing Part details ");
 	
@@ -83,11 +83,8 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 		if(partDTO !=null && partDTO.getPartNumber() !=null) {
 			part = service.getPartByPartNumber(partDTO.getPartNumber());
 			if(part !=null) {
-				LOGGER.info("Part Already Exists , Hence Couldnt Update a new Entry {}", part.getId() );
-			}else {
-				LOGGER.warn("Part Doesnt Exists , Nothng to Update");
 				
-				//Checking is Sections Exists , If yes do a explicit mapping so that we have part_Id relation in db
+				/*LOGGER.info("Part Already Exists , Hence  Updating Entry {}", part.getId() );
 				if(partDTO.getChapters() !=null && !partDTO.getChapters().isEmpty()) {
 					Set<ChapterDTO> chapterDTOs = partDTO.getChapters();
 					
@@ -95,11 +92,19 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 						chapterDTO.setPart(partDTO);
 					}
 				
-				}
-				partDTO = service.save(partDTO);
+				}*/
+				
+				part.setPartHeading(partDTO.getPartHeading());
+				part.setPartNumber(partDTO.getPartNumber());
+				part = service.save(part);
 				
 				//AWSSendMail.sendEmail();
 				System.out.println("Saved DTO" + partDTO);
+			}else {
+				LOGGER.warn("Part Doesnt Exists , Nothng to Update");
+				
+				//Checking is Sections Exists , If yes do a explicit mapping so that we have part_Id relation in db
+				
 			}
 		}
 		return partDTO;

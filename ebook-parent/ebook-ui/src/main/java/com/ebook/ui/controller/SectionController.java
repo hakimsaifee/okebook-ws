@@ -13,57 +13,83 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.common.dto.ChapterDTO;
+import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
 import com.ebook.services.service.ChapterService;
 import com.ebook.services.service.SectionService;
 
-
 @RestController // Need to include jackson formattor to get xml/json as needed.
 @RequestMapping(value = SectionController.Section)
-@CrossOrigin(origins="*", maxAge = 3600)
-public class SectionController extends AbstractController<SectionDTO, SectionService>  {
+@CrossOrigin(origins = "*", maxAge = 3600)
+public class SectionController extends AbstractController<SectionDTO, SectionService> {
 	public static final String Section = "section";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SectionController.class);
-	
+
 	@Autowired
 	public SectionController(SectionService service) {
 		super(service);
 	}
-	
+
 	@Autowired
 	private ChapterService chapterService;
+
+	@Autowired
+	private SectionService sectionService;
 
 	@RequestMapping(path = "saveSections", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ChapterDTO saveChapter(@RequestBody ChapterDTO chapterDTO) {
 		ChapterDTO chapEntityDTO = null;
-		if(chapterDTO.getChapterNumber() !=null) {
+		if (chapterDTO.getChapterNumber() != null) {
 			try {
 				chapEntityDTO = chapterService.getChapterByChapterNumber(chapterDTO.getChapterNumber());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if(chapEntityDTO !=null) {
-				LOGGER.info("Chapter Already Exists {} , Adding Sections ",chapEntityDTO.getId());
+			if (chapEntityDTO != null) {
+				LOGGER.info("Chapter Already Exists {} , Adding Sections ", chapEntityDTO.getId());
 
 				Set<SectionDTO> sectionDTOs = chapterDTO.getSections();
 				chapEntityDTO.setSections(sectionDTOs);
-				if(sectionDTOs !=null && !sectionDTOs.isEmpty()) {
-					for(SectionDTO sectionDTO :sectionDTOs) {
+				if (sectionDTOs != null && !sectionDTOs.isEmpty()) {
+					for (SectionDTO sectionDTO : sectionDTOs) {
 						sectionDTO.setChapter(chapEntityDTO);
 					}
 				}
 				chapEntityDTO = chapterService.update(chapEntityDTO);
-			}else {
+			} else {
 				LOGGER.error("Chapter Doesnt Exist {} , Hence Wont add Sections ");
-				
+
 			}
-		}else {
+		} else {
 			LOGGER.error("Invalid input - ChapterDTO");
 		}
 		return chapEntityDTO;
-		
+
 	}
-	
-	
+
+	@RequestMapping(path = "edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ChapterDTO editSection(@RequestBody ChapterDTO chapterDTO) {
+		LOGGER.debug("Editing Section details ");
+
+		ChapterDTO chapDTO = new ChapterDTO();
+		if (chapterDTO != null && chapterDTO.getSections() != null && !chapterDTO.getSections().isEmpty()) {
+			LOGGER.info("Chapter Already Exists , Hence Updating {}", chapDTO.getId());
+			
+			chapDTO = chapterService.getChapterByChapterNumber(chapterDTO.getChapterNumber());
+			
+			Set<SectionDTO> sectionDTOs = chapterDTO.getSections();
+			
+			for(SectionDTO sectionDTO :sectionDTOs) {
+				sectionDTO.setChapter(chapDTO);
+				sectionDTO = sectionService.update(sectionDTO);
+				// AWSSendMail.sendEmail();
+				System.out.println("Saved DTO" + chapDTO);
+			}
+		} else {
+			LOGGER.warn("Chapter Doesnt Exists , Nothng to Update");
+		}
+		return chapDTO;
+	}
+
 }
