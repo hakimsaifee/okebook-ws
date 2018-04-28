@@ -56,11 +56,11 @@ public class Section implements Serializable {
 
 
 	public void setSectionHeading(String sectionHeading) {
-		this.sectionDetail = sectionHeading;
+		this.sectionHeading = sectionHeading;
 	}
 	
 	public String getSectionHeading() {
-		return sectionDetail;
+		return sectionHeading;
 	}
 
 	public BigDecimal getSectionNumber() {
