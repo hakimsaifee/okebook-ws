@@ -4,44 +4,54 @@ import java.util.List;
 
 public class TreeModel {
 
-	private String id;
-
-	private String name;
-
-	private String icon;
+	private Data data;
+	
+	public Data getData() {
+		return data;
+	}
+	
+	public void setData(Data data) {
+		this.data = data;
+	}
+	
+//	private String id;
+//
+//	private String name;
+//
+//	private String icon;
 
 	private List<TreeModel> children;
 
-	private String additionalData;
+//	private String additionalData;
 
-	@Override
-	public String toString() {
-		return "TreeModel [name=" + name + ", icon=" + icon + ", children=" + children + "]";
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
+//	@Override
+//	public String toString() {
+//		return "TreeModel [name=" + name + ", icon=" + icon + ", children=" + children + "]";
+//	}
+//
+//	public String getId() {
+//		return id;
+//	}
+//
+//	public void setId(String id) {
+//		this.id = id;
+//	}
+//
+//	public String getName() {
+//		return name;
+//	}
+//
+//	public void setName(String name) {
+//		this.name = name;
+//	}
+//
+//	public String getIcon() {
+//		return icon;
+//	}
+//
+//	public void setIcon(String icon) {
+//		this.icon = icon;
+//	}
 
 	public List<TreeModel> getChildren() {
 		return children;
@@ -51,11 +61,30 @@ public class TreeModel {
 		this.children = children;
 	}
 
-	public String getAdditionalData() {
-		return additionalData;
+//	public String getAdditionalData() {
+//		return additionalData;
+//	}
+//
+//	public void setAdditionalData(String additionalData) {
+//		this.additionalData = additionalData;
+//	}
+	public void setData(String data) {
+		this.setData(new Data(data));
+	}
+}
+
+class Data {
+	private String name;
+
+	public Data(String data) {
+		this.name = data;
 	}
 
-	public void setAdditionalData(String additionalData) {
-		this.additionalData = additionalData;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

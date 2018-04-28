@@ -3,6 +3,8 @@ package com.ebook.services.service;
 import java.math.BigDecimal;
 
 import org.dozer.DozerBeanMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +12,12 @@ import com.ebook.common.dto.PartDTO;
 import com.ebook.domain.entity.Part;
 import com.ebook.domain.repository.PartRepository;
 
+
 @Service
 public class PartService extends AbstractService<Part, PartDTO, PartRepository>{
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(PartService.class);
+	
 	public PartService() {
 	}
 	
