@@ -19,7 +19,7 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 
 	protected E repository;
 
-	private Class<V> dtoClazz;
+	protected Class<V> dtoClazz;
 	private Class<T> daoClazz;
 
 	protected DozerBeanMapper beanMapper;
@@ -82,14 +82,14 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 		return convertDaoToDto(pagedElements.getContent(), dtoClazz);
 	}
 
-	private V convertDaoToDto(T source, Class<V> object) {
+	protected V convertDaoToDto(T source, Class<V> object) {
 		if (source != null) {
 			return beanMapper.map(source, object);
 		}
 		return null;
 	}
 
-	private Collection<V> convertDaoToDto(Collection<T> source, Class<V> object) {
+	protected Collection<V> convertDaoToDto(Collection<T> source, Class<V> object) {
 		if (source != null && !source.isEmpty()) {
 			List<V> targetObjects = new ArrayList<>();
 			source.forEach(e -> {

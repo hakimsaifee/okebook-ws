@@ -1,10 +1,17 @@
 package com.ebook.services.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.SectionDTO;
+import com.ebook.domain.entity.Chapter;
 import com.ebook.domain.entity.Section;
 import com.ebook.domain.repository.SectionRepository;
 
@@ -19,5 +26,19 @@ public class SectionService extends AbstractService<Section, SectionDTO, Section
 		super(repository, dozerBeanMapper);
 	}
 	
+	@Transactional
+	@Override
+	public List<SectionDTO> getAll() {
+		List<Section> entities = repository.findAllByOrderBySectionNumberAsc();
+		List<SectionDTO> sectionDTOList = new ArrayList<>();
+		if (entities != null) {
+			for(Section section :entities) {
+				SectionDTO entityDTO = convertDaoToDto(section, dtoClazz);
+				sectionDTOList.add(entityDTO);
+			}
+		}
+		return sectionDTOList;
+		
+	}
 	
 }
