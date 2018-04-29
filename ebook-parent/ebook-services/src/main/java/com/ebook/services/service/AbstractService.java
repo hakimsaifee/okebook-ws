@@ -24,8 +24,8 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 
 	protected DozerBeanMapper beanMapper;
 
-	  private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
-	  
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
+
 	public AbstractService() {
 	}
 
@@ -65,6 +65,15 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 
 	public V update(V dto) {
 		return save(dto);
+	}
+
+	public V delete(Long id) {
+		T entity = repository.findOne(id);
+		return delete(convertDaoToDto(entity, dtoClazz));
+	}
+
+	public V delete(V dto) {
+		return delete(dto);
 	}
 
 	public V getById(Long id) {
