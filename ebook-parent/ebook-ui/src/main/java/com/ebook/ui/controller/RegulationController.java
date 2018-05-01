@@ -12,11 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.RegulationDTO;
 import com.ebook.common.dto.RegulationPartDTO;
-import com.ebook.common.dto.SectionDTO;
-import com.ebook.domain.entity.RegulationPart;
 import com.ebook.services.service.RegulationPartService;
 import com.ebook.services.service.RegulationService;
 

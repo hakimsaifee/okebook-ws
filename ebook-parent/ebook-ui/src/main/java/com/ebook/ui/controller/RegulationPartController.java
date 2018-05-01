@@ -35,7 +35,7 @@ public class RegulationPartController extends AbstractController<RegulationPartD
 	public RegulationPartDTO saveRegulation(@RequestBody RegulationPartDTO regulationPartDTO) {
 		LOGGER.debug("Saving Regulation details ");
 
-		RegulationPart regulationPart;
+		RegulationPartDTO regulationPart;
 		if (regulationPartDTO != null && regulationPartDTO.getRegulationChapterNumber() != null) {
 			regulationPart = service.getRegulationByRegulationNumber(regulationPartDTO.getRegulationChapterNumber());
 			if (regulationPart != null) {
@@ -49,7 +49,7 @@ public class RegulationPartController extends AbstractController<RegulationPartD
 					Set<RegulationDTO> regulationDTOs = regulationPartDTO.getRegulations();
 
 					for (RegulationDTO regulationDTO : regulationDTOs) {
-						regulationDTO.setRegulationPart(regulationPartDTO);
+						regulationDTO.setRegulationPart(regulationPart);
 					}
 				}
 				regulationPartDTO = service.save(regulationPartDTO);
@@ -75,13 +75,32 @@ public class RegulationPartController extends AbstractController<RegulationPartD
 	
 	
 	@RequestMapping(path = "regulationPartHeading", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public  RegulationPart getregulationPartHeading(@RequestBody RegulationPartDTO regulationPartNumber) {
+	public  RegulationPartDTO getregulationPartHeading(@RequestBody RegulationPartDTO regulationPartNumber) {
 		System.out.println("getPartHeading");
 		
-		RegulationPart partDto = service.getRegulationByRegulationNumber(regulationPartNumber.getRegulationChapterNumber());
+		RegulationPartDTO partDto = service.getRegulationByRegulationNumber(regulationPartNumber.getRegulationChapterNumber());
 		
 		System.out.println("partDTO list is " + partDto);
 	
 		return partDto;
+	}
+	
+	
+	@RequestMapping(path = "edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public RegulationPartDTO editRegulationPart(@RequestBody RegulationPartDTO regulationPartDTO) {
+		LOGGER.debug("Editing Regulation Part details ");
+
+		RegulationPartDTO entityDTO = new RegulationPartDTO();
+		if (regulationPartDTO != null && regulationPartDTO.getRegulations() != null && !regulationPartDTO.getRegulations().isEmpty()) {
+			
+			entityDTO = service.getRegulationByRegulationNumber(regulationPartDTO.getRegulationChapterNumber());
+			LOGGER.info("Regulation Already Exists , Hence Updating {}", entityDTO.getId());
+			
+			regulationPartDTO = service.update(regulationPartDTO);
+		} else {
+			LOGGER.warn("Regulation Part Doesnt Exists , Nothng to Update");
+		}
+		return entityDTO;
+		
 	}
 }
