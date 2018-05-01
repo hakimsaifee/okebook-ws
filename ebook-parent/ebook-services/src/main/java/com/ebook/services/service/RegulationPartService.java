@@ -11,17 +11,23 @@ import com.ebook.domain.entity.RegulationPart;
 import com.ebook.domain.repository.RegulationPartRepository;
 
 @Service
-public class RegulationPartService extends AbstractService<RegulationPart, RegulationPartDTO, RegulationPartRepository>{
+public class RegulationPartService
+		extends AbstractService<RegulationPart, RegulationPartDTO, RegulationPartRepository> {
 
 	public RegulationPartService() {
 	}
-	
+
 	@Autowired
 	public RegulationPartService(RegulationPartRepository repository, DozerBeanMapper dozerBeanMapper) {
 		super(repository, dozerBeanMapper);
 	}
 
-	public RegulationPart getRegulationByRegulationNumber(BigDecimal partNumber) {
-		return repository.findByregulationChapterNumber(partNumber);
-	}
-}
+	public RegulationPartDTO getRegulationByRegulationNumber(BigDecimal partNumber) {
+
+		RegulationPart regulationPart = repository.findByregulationChapterNumber(partNumber);
+		
+		if(regulationPart !=null) {
+			return beanMapper.map(regulationPart, RegulationPartDTO.class);
+		}
+		return null;
+}}

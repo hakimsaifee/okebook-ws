@@ -76,9 +76,9 @@ public class SectionController extends AbstractController<SectionDTO, SectionSer
 
 		ChapterDTO chapDTO = new ChapterDTO();
 		if (chapterDTO != null && chapterDTO.getSections() != null && !chapterDTO.getSections().isEmpty()) {
-			LOGGER.info("Chapter Already Exists , Hence Updating {}", chapDTO.getId());
 			
 			chapDTO = chapterService.getChapterByChapterNumber(chapterDTO.getChapterNumber());
+			LOGGER.info("Chapter Already Exists , Hence Updating {}", chapDTO.getId());
 			
 			Set<SectionDTO> sectionDTOs = chapterDTO.getSections();
 			

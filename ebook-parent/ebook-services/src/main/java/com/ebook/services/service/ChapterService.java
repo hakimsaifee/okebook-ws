@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ebook.common.dto.ChapterDTO;
-import com.ebook.common.dto.PartDTO;
 import com.ebook.domain.entity.Chapter;
-import com.ebook.domain.entity.Part;
 import com.ebook.domain.repository.ChapterRepository;
 
 @Service

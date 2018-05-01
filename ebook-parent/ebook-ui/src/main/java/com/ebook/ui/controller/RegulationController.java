@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.RegulationDTO;
 import com.ebook.common.dto.RegulationPartDTO;
+import com.ebook.common.dto.SectionDTO;
 import com.ebook.domain.entity.RegulationPart;
 import com.ebook.services.service.RegulationPartService;
 import com.ebook.services.service.RegulationService;
@@ -38,10 +40,10 @@ public class RegulationController extends AbstractController<RegulationDTO, Regu
 	@RequestMapping(path = "saveRegulation", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public RegulationPartDTO saveRegulation(@RequestBody RegulationPartDTO dto) {
 		System.out.println("Update");
-		RegulationPartDTO regulationDTO = null;
+		RegulationPartDTO  regulationPart = null;
 		
 		if(dto.getRegulationChapterNumber() !=null) {
-			RegulationPart  regulationPart = regulationService.getRegulationByRegulationNumber(dto.getRegulationChapterNumber());
+			regulationPart = regulationService.getRegulationByRegulationNumber(dto.getRegulationChapterNumber());
 			if(regulationPart !=null) {
 				LOGGER.info("Regulation Part Already Exists {} , Adding Regulations ",regulationPart.getId());
 
@@ -50,7 +52,7 @@ public class RegulationController extends AbstractController<RegulationDTO, Regu
 				if(regulationDTOs !=null && !regulationDTOs.isEmpty()) {
 					
 					for(RegulationDTO regDTO :regulationDTOs) {
-						regDTO.setRegulationPart(regulationDTO);
+						regDTO.setRegulationPart(regulationPart);
 						regDTO = service.save(regDTO);
 					}
 				
@@ -60,8 +62,33 @@ public class RegulationController extends AbstractController<RegulationDTO, Regu
 				
 			}
 		}
-		return regulationDTO;
+		return regulationPart;
 		
 	}
 	
+	
+	@RequestMapping(path = "edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public RegulationPartDTO editRegulation(@RequestBody RegulationPartDTO regulationPartDTO) {
+		LOGGER.debug("Editing Regulation details ");
+
+		RegulationPartDTO entityDTO = new RegulationPartDTO();
+		if (regulationPartDTO != null && regulationPartDTO.getRegulations() != null && !regulationPartDTO.getRegulations().isEmpty()) {
+			
+			entityDTO = regulationService.getRegulationByRegulationNumber(regulationPartDTO.getRegulationChapterNumber());
+			LOGGER.info("Regulation Already Exists , Hence Updating {}", entityDTO.getId());
+			
+			Set<RegulationDTO> regulationDTOs = regulationPartDTO.getRegulations();
+			
+			for(RegulationDTO regulationDTO : regulationDTOs) {
+				regulationDTO.setRegulationPart(entityDTO);
+				regulationDTO = service.update(regulationDTO);
+				// AWSSendMail.sendEmail();
+				System.out.println("Saved DTO" + entityDTO);
+			}
+		} else {
+			LOGGER.warn("Chapter Doesnt Exists , Nothng to Update");
+		}
+		return entityDTO;
+		
+	}
 }
