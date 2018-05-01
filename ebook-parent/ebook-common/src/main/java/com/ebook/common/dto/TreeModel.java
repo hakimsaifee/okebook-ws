@@ -1,57 +1,21 @@
 package com.ebook.common.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class TreeModel {
 
 	private Data data;
-	
-	public Data getData() {
-		return data;
-	}
-	
-	public void setData(Data data) {
-		this.data = data;
-	}
-	
-//	private String id;
-//
-//	private String name;
-//
-//	private String icon;
 
 	private List<TreeModel> children;
 
-//	private String additionalData;
+	public Data getData() {
+		return data;
+	}
 
-//	@Override
-//	public String toString() {
-//		return "TreeModel [name=" + name + ", icon=" + icon + ", children=" + children + "]";
-//	}
-//
-//	public String getId() {
-//		return id;
-//	}
-//
-//	public void setId(String id) {
-//		this.id = id;
-//	}
-//
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public String getIcon() {
-//		return icon;
-//	}
-//
-//	public void setIcon(String icon) {
-//		this.icon = icon;
-//	}
+	public void setData(Data data) {
+		this.data = data;
+	}
 
 	public List<TreeModel> getChildren() {
 		return children;
@@ -61,23 +25,30 @@ public class TreeModel {
 		this.children = children;
 	}
 
-//	public String getAdditionalData() {
-//		return additionalData;
-//	}
-//
-//	public void setAdditionalData(String additionalData) {
-//		this.additionalData = additionalData;
-//	}
-	public void setData(String data) {
-		this.setData(new Data(data));
+	public void setData(BigDecimal number, String data, NodeTypeEnum nodeType) {
+		this.setData(new Data(data, number, nodeType));
 	}
+
 }
 
 class Data {
 	private String name;
+	private BigDecimal number;
 
-	public Data(String data) {
+	private NodeTypeEnum nodeType;
+
+	public Data(String data, BigDecimal number ,NodeTypeEnum nodeType) {
 		this.name = data;
+		this.nodeType = nodeType;
+		this.number = number;
+	}
+
+	public BigDecimal getNumber() {
+		return number;
+	}
+
+	public void setNumber(BigDecimal number) {
+		this.number = number;
 	}
 
 	public String getName() {
@@ -87,4 +58,13 @@ class Data {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public NodeTypeEnum getNodeType() {
+		return nodeType;
+	}
+
+	public void setNodeType(NodeTypeEnum nodeType) {
+		this.nodeType = nodeType;
+	}
+
 }

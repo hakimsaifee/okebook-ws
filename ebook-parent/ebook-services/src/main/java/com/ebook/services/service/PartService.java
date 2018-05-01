@@ -1,6 +1,11 @@
 package com.ebook.services.service;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
@@ -34,6 +39,20 @@ public class PartService extends AbstractService<Part, PartDTO, PartRepository>{
 		}
 		return null;
 	}
-	
-	
+
+	@Transactional
+	@Override
+	public List<PartDTO> getAll() {
+		List<Part> entities = repository.findAllByOrderByPartNumberAsc();
+		List<PartDTO> partDTOList = new ArrayList<>();
+		if (entities != null) {
+			for (Part part : entities) {
+				PartDTO entityDTO = convertDaoToDto(part, PartDTO.class);
+				partDTOList.add(entityDTO);
+			}
+		}
+		return partDTOList;
+
+	}
+
 }

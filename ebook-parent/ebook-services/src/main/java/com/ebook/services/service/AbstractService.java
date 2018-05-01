@@ -19,13 +19,13 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 
 	protected E repository;
 
-	private Class<V> dtoClazz;
+	protected Class<V> dtoClazz;
 	private Class<T> daoClazz;
 
 	protected DozerBeanMapper beanMapper;
 
-	  private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
-	  
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
+
 	public AbstractService() {
 	}
 
@@ -67,6 +67,15 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 		return save(dto);
 	}
 
+	public V delete(Long id) {
+		T entity = repository.findOne(id);
+		return delete(convertDaoToDto(entity, dtoClazz));
+	}
+
+	public V delete(V dto) {
+		return delete(dto);
+	}
+
 	public V getById(Long id) {
 		T entity = repository.findOne(id);
 		return convertDaoToDto(entity, dtoClazz);
@@ -82,14 +91,14 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 		return convertDaoToDto(pagedElements.getContent(), dtoClazz);
 	}
 
-	private V convertDaoToDto(T source, Class<V> object) {
+	protected V convertDaoToDto(T source, Class<V> object) {
 		if (source != null) {
 			return beanMapper.map(source, object);
 		}
 		return null;
 	}
 
-	private Collection<V> convertDaoToDto(Collection<T> source, Class<V> object) {
+	protected Collection<V> convertDaoToDto(Collection<T> source, Class<V> object) {
 		if (source != null && !source.isEmpty()) {
 			List<V> targetObjects = new ArrayList<>();
 			source.forEach(e -> {

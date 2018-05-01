@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.common.dto.ChapterDTO;
+import com.ebook.common.dto.NodeTypeEnum;
 import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
 import com.ebook.common.dto.TreeModel;
@@ -75,35 +76,41 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 		return partDTOList;
 	}
 
-	@RequestMapping(path = "editPart", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path = "edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public PartDTO editPart(@RequestBody PartDTO partDTO) {
-	LOGGER.debug("Editing Part details ");
-	
-		PartDTO  part;
-		if(partDTO !=null && partDTO.getPartNumber() !=null) {
+		LOGGER.debug("Editing Part details ");
+
+		PartDTO part;
+		if (partDTO != null && partDTO.getPartNumber() != null) {
 			part = service.getPartByPartNumber(partDTO.getPartNumber());
-			if(part !=null) {
-				LOGGER.info("Part Already Exists , Hence Couldnt Update a new Entry {}", part.getId() );
+			if (part != null) {
+
+				/*LOGGER.info("Part Already Exists , Hence  Updating Entry {}", part.getId() );
+				if (partDTO.getChapters() != null && !partDTO.getChapters().isEmpty()) {
+					Set<ChapterDTO> chapterDTOs = partDTO.getChapters();
+
+					for (ChapterDTO chapterDTO : chapterDTOs) {
+						chapterDTO.setPart(partDTO);
+					}
+
+				}*/
+				
+				part.setPartHeading(partDTO.getPartHeading());
+				part.setPartNumber(partDTO.getPartNumber());
+				part = service.save(part);
+
+				// AWSSendMail.sendEmail();
+				System.out.println("Saved DTO" + partDTO);
 			}else {
 				LOGGER.warn("Part Doesnt Exists , Nothng to Update");
 				
 				//Checking is Sections Exists , If yes do a explicit mapping so that we have part_Id relation in db
-				if(partDTO.getChapters() !=null && !partDTO.getChapters().isEmpty()) {
-					Set<ChapterDTO> chapterDTOs = partDTO.getChapters();
-					
-					for(ChapterDTO chapterDTO :chapterDTOs) {
-						chapterDTO.setPart(partDTO);
-					}
 				
-				}
-				partDTO = service.save(partDTO);
-				
-				//AWSSendMail.sendEmail();
-				System.out.println("Saved DTO" + partDTO);
 			}
 		}
 		return partDTO;
 	}
+
 	@RequestMapping(path = "partHeading", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public PartDTO getPartHeading(@RequestBody PartDTO partNumber) {
 		System.out.println("getPartHeading");
@@ -133,7 +140,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	private void mapPartToTreeModel(PartDTO partDTO, TreeModel tree) {
-		tree.setData("Part " + partDTO.getPartNumber() + " | " + partDTO.getPartHeading());
+		tree.setData(partDTO.getPartNumber(), partDTO.getPartHeading(), NodeTypeEnum.PART);
 		Set<ChapterDTO> chapters = partDTO.getChapters();
 		if (chapters != null && !chapters.isEmpty()) {
 			List<TreeModel> chaptersTree = new ArrayList<>();
@@ -147,7 +154,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	private void mapChapterToTreeModel(ChapterDTO chapterDTO, TreeModel chapterTree) {
-		chapterTree.setData("Chapter " + chapterDTO.getChapterNumber() + " | " + chapterDTO.getChapterHeading());
+		chapterTree.setData(chapterDTO.getChapterNumber(), chapterDTO.getChapterHeading(), NodeTypeEnum.CHAPTER);
 		Set<SectionDTO> sections = chapterDTO.getSections();
 		if (sections != null && !sections.isEmpty()) {
 			List<TreeModel> sectionsTree = new ArrayList<>();
@@ -161,7 +168,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	private void mapChapterToTreeModel(SectionDTO sectionDTO, TreeModel sectionTree) {
-		sectionTree.setData("Section " + sectionDTO.getSectionNumber() + " | " + sectionDTO.getSectionHeading());
+		sectionTree.setData(sectionDTO.getSectionNumber(), sectionDTO.getSectionHeading(), NodeTypeEnum.SECTION);
 	}
 
 }
