@@ -20,7 +20,9 @@ import com.ebook.common.dto.NodeTypeEnum;
 import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
 import com.ebook.common.dto.TreeModel;
+import com.ebook.common.dto.TreeWrapper;
 import com.ebook.services.service.PartService;
+import com.ebook.services.service.SectionService;
 
 @RestController // Need to include jackson formattor to get xml/json as needed.
 @RequestMapping(value = PartController.PART)
@@ -29,6 +31,9 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	public static final String PART = "part";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PartController.class);
+
+	@Autowired
+	private SectionService sectionService;
 
 	@Autowired
 	public PartController(PartService service) {
@@ -47,7 +52,8 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 			} else {
 				LOGGER.info("Part Doesnt Exists , Creating a new Entry");
 
-					//Checking is Sections Exists , If yes do a explicit mapping so that we have part_Id relation in db
+				// Checking is Sections Exists , If yes do a explicit mapping so
+				// that we have part_Id relation in db
 				if (partDTO.getChapters() != null && !partDTO.getChapters().isEmpty()) {
 					Set<ChapterDTO> chapterDTOs = partDTO.getChapters();
 
@@ -85,27 +91,30 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 			part = service.getPartByPartNumber(partDTO.getPartNumber());
 			if (part != null) {
 
-				/*LOGGER.info("Part Already Exists , Hence  Updating Entry {}", part.getId() );
-				if (partDTO.getChapters() != null && !partDTO.getChapters().isEmpty()) {
-					Set<ChapterDTO> chapterDTOs = partDTO.getChapters();
+				/*
+				 * LOGGER.info("Part Already Exists , Hence  Updating Entry {}",
+				 * part.getId() ); if (partDTO.getChapters() != null &&
+				 * !partDTO.getChapters().isEmpty()) { Set<ChapterDTO>
+				 * chapterDTOs = partDTO.getChapters();
+				 * 
+				 * for (ChapterDTO chapterDTO : chapterDTOs) {
+				 * chapterDTO.setPart(partDTO); }
+				 * 
+				 * }
+				 */
 
-					for (ChapterDTO chapterDTO : chapterDTOs) {
-						chapterDTO.setPart(partDTO);
-					}
-
-				}*/
-				
 				part.setPartHeading(partDTO.getPartHeading());
 				part.setPartNumber(partDTO.getPartNumber());
 				part = service.save(part);
 
 				// AWSSendMail.sendEmail();
 				System.out.println("Saved DTO" + partDTO);
-			}else {
+			} else {
 				LOGGER.warn("Part Doesnt Exists , Nothng to Update");
-				
-				//Checking is Sections Exists , If yes do a explicit mapping so that we have part_Id relation in db
-				
+
+				// Checking is Sections Exists , If yes do a explicit mapping so
+				// that we have part_Id relation in db
+
 			}
 		}
 		return partDTO;
@@ -123,20 +132,23 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	@RequestMapping(path = "get/getAllParts", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<TreeModel> getAllParts() {
-		// TreeModel root = new TreeModel();
+	public TreeWrapper getAllParts() {
+		TreeWrapper treeWrapper = null;
 		List<TreeModel> treeModels = null;
 		Collection<PartDTO> elements = service.getAll();
 		if (elements != null && !elements.isEmpty()) {
+			treeWrapper = new TreeWrapper();
 			treeModels = new ArrayList<>();
 			for (PartDTO partDTO : elements) {
 				TreeModel tree = new TreeModel();
 				mapPartToTreeModel(partDTO, tree);
 				treeModels.add(tree);
 			}
+			treeWrapper.setTreeModels(treeModels);
+			// Adding sorted section list also.
+			treeWrapper.setSections(getOrderedSections());
 		}
-		// root.setChildren(treeModels);
-		return treeModels;
+		return treeWrapper;
 	}
 
 	private void mapPartToTreeModel(PartDTO partDTO, TreeModel tree) {
@@ -160,15 +172,18 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 			List<TreeModel> sectionsTree = new ArrayList<>();
 			for (SectionDTO sectionDTO : sections) {
 				TreeModel sectionModel = new TreeModel();
-				mapChapterToTreeModel(sectionDTO, sectionModel);
+				mapSectionToTreeModel(sectionDTO, sectionModel);
 				sectionsTree.add(sectionModel);
 			}
 			chapterTree.setChildren(sectionsTree);
 		}
 	}
 
-	private void mapChapterToTreeModel(SectionDTO sectionDTO, TreeModel sectionTree) {
+	private void mapSectionToTreeModel(SectionDTO sectionDTO, TreeModel sectionTree) {
 		sectionTree.setData(sectionDTO.getSectionNumber(), sectionDTO.getSectionHeading(), NodeTypeEnum.SECTION);
 	}
 
+	private List<SectionDTO> getOrderedSections() {
+		return sectionService.getAll();
+	}
 }

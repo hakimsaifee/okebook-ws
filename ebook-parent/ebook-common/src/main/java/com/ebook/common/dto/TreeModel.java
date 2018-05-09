@@ -6,7 +6,7 @@ import java.util.List;
 public class TreeModel {
 
 	private Data data;
-
+	
 	private List<TreeModel> children;
 
 	public Data getData() {
