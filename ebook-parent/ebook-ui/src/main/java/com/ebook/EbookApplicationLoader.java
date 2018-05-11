@@ -47,7 +47,5 @@ public class EbookApplicationLoader {
     @PostConstruct
     public void init() {
     	
-    	Collection<PartDTO> parts = partService.getAll();   
-    	System.out.println(parts);
     }
 }

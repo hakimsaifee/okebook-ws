@@ -44,7 +44,7 @@ public class ChapterController extends AbstractController<ChapterDTO, ChapterSer
 	
 	
 		
-	@RequestMapping(value = "/chapters", method = RequestMethod.GET)
+	@RequestMapping(value = "get/getAllOrdered", method = RequestMethod.GET)
 	public Collection<ChapterDTO> listUser() {
 		return service.getAll();
 	}
