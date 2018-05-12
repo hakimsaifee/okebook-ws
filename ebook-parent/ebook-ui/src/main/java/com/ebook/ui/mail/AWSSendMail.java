@@ -30,8 +30,8 @@ import com.ebook.common.dto.ContactUsDTO;
 
 public class AWSSendMail {
 
-    static final String FROM = "info@mamtabinaniandassociates.com";  // Replace with your "From" address. This address must be verified.
-    static final String TO = "info@mamtabinaniandassociates.com"; // Replace with a "To" address. If you have not yet requested
+    static final String FROM = " info@mamtabinaniandassociates.com";  // Replace with your "From" address. This address must be verified.
+    static final String TO = " info@mamtabinaniandassociates.com"; // Replace with a "To" address. If you have not yet requested
                                                       // production access, this address must be verified.
     static final String BODY = "Part Saved";
     static final String SUBJECT = "Website Notification";
@@ -57,12 +57,12 @@ public class AWSSendMail {
     
     public static void sendContactUsEmail(ContactUsDTO contactUsDTO) {
 		// Construct an object to contain the recipient address.
-        Destination destination = new Destination().withToAddresses(new String[]{TO,"info@mamtabinaniandassociates.com"});
+        Destination destination = new Destination().withToAddresses(new String[]{TO," info@mamtabinaniandassociates.com"});
 
         // Create the subject and body of the message.
         Content subject = new Content().withData(SUBJECT);
         String dtoBody = "This Message was sent from "+ contactUsDTO.getName()+" with email as "+contactUsDTO.getEmailId() +
-        		" and Phone Number as "+contactUsDTO.getPhone() +"/n";
+        		" and Phone Number as "+contactUsDTO.getPhone() +"\n  Message received :";
         dtoBody =dtoBody.concat(contactUsDTO.getEmailId());
         Content textBody = new Content().withData(dtoBody);
         Body body = new Body().withText(textBody);
@@ -76,14 +76,6 @@ public class AWSSendMail {
         try {
             System.out.println("Attempting to send an email through Amazon SES by using the AWS SDK for Java...");
 
-            /*
-             * The ProfileCredentialsProvider will return your [default]
-             * credential profile by reading from the credentials file located at
-             * (C:\\Users\\ajitesh.k\\.aws\\credentials).
-             *
-             * TransferManager manages a pool of threads, so we create a
-             * single instance and share it throughout our application.
-             */
             ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
             try {
                 credentialsProvider.getCredentials();

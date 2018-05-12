@@ -75,11 +75,12 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	
-	@RequestMapping(path = "contactMail", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void editChapter(@RequestBody ContactUsDTO contactUsDTO) {
-		LOGGER.debug("Editing Chapter details ");
-
+	@RequestMapping(path = "contactMail", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
+	public String sendContactEmail(@RequestBody ContactUsDTO contactUsDTO) {
+		LOGGER.debug("Sending contact email " +contactUsDTO);
+		System.out.println("Sending contact email " +contactUsDTO);
 		AWSSendMail.sendContactUsEmail(contactUsDTO);
+		return "Bi";
 	}
 	
 	@RequestMapping(path = "partNumbers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
