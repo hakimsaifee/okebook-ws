@@ -79,8 +79,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	public void editChapter(@RequestBody ContactUsDTO contactUsDTO) {
 		LOGGER.debug("Editing Chapter details ");
 
-		AWSSendMail awsSendMail = new AWSSendMail();
-		awsSendMail.sendContactUsEmail(contactUsDTO);
+		AWSSendMail.sendContactUsEmail(contactUsDTO);
 	}
 	
 	@RequestMapping(path = "partNumbers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
