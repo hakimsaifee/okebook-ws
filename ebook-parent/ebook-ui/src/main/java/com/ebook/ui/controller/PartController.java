@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.common.dto.ChapterDTO;
+import com.ebook.common.dto.ContactUsDTO;
 import com.ebook.common.dto.NodeTypeEnum;
 import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
@@ -23,6 +24,7 @@ import com.ebook.common.dto.TreeModel;
 import com.ebook.common.dto.TreeWrapper;
 import com.ebook.services.service.PartService;
 import com.ebook.services.service.SectionService;
+import com.ebook.ui.mail.AWSSendMail;
 
 @RestController // Need to include jackson formattor to get xml/json as needed.
 @RequestMapping(value = PartController.PART)
@@ -72,6 +74,15 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 
 	}
 
+	
+	@RequestMapping(path = "contactMail", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void editChapter(@RequestBody ContactUsDTO contactUsDTO) {
+		LOGGER.debug("Editing Chapter details ");
+
+		AWSSendMail awsSendMail = new AWSSendMail();
+		awsSendMail.sendContactUsEmail(contactUsDTO);
+	}
+	
 	@RequestMapping(path = "partNumbers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<PartDTO> getPartNumbers() {
 		System.out.println("getPartNumbers");
