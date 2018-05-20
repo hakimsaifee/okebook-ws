@@ -26,7 +26,7 @@ public abstract class AbstractController<V, E extends AbstractService<?, V, ? ex
 		this.service = service;
 	}
 
-	@RequestMapping(path = "get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path = "getById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public V getById(@PathVariable(value = "id") Long id) {
 		return service.getById(id);
 	}

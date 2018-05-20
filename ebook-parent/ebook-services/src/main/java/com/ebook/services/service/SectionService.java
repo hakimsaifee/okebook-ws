@@ -9,12 +9,18 @@ import javax.transaction.Transactional;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import com.ebook.common.dto.ChapterDTO;
+import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
+import com.ebook.common.enums.ContentTypeEnum;
 import com.ebook.domain.entity.Section;
+import com.ebook.domain.entity.TypeAwareEntity;
 import com.ebook.domain.entity.Chapter;
+import com.ebook.domain.entity.Part;
 import com.ebook.domain.repository.SectionRepository;
 
 @Service
@@ -52,4 +58,20 @@ public class SectionService extends AbstractService<Section, SectionDTO, Section
 		return null;
 	}
 
+	
+	public List<SectionDTO> getAllByContentType(ContentTypeEnum contentTypeEnum) {
+		Order order = new Order(Sort.Direction.ASC, "sectionNumber");
+		Sort sort = new Sort(order);
+		List<TypeAwareEntity> entities = repository.findAllBycontentType(contentTypeEnum, sort);
+		List<SectionDTO> sectionDTOList = new ArrayList<>();
+		if (entities != null) {
+			for (TypeAwareEntity entity : entities) {
+				Section section = (Section) entity;
+				SectionDTO entityDTO = convertDaoToDto(section, SectionDTO.class);
+				sectionDTOList.add(entityDTO);
+			}
+		}
+		return sectionDTOList;
+
+	}
 }

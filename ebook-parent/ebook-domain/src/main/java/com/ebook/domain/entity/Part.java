@@ -23,7 +23,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "part")
 @NamedQuery(name = "Part.findAll", query = "SELECT p FROM Part p")
-public class Part implements Serializable {
+public class Part extends TypeAwareEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PART_GENERATOR")

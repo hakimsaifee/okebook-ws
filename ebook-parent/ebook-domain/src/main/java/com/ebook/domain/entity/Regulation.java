@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "regulation")
 @NamedQuery(name = "Regulation.findAll", query = "SELECT r FROM Regulation r")
-public class Regulation implements Serializable {
+public class Regulation extends TypeAwareEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

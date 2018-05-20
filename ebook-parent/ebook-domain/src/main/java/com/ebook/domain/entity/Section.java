@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "section")
 @NamedQuery(name = "Section.findAll", query = "SELECT s FROM Section s")
-public class Section implements Serializable {
+public class Section extends TypeAwareEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

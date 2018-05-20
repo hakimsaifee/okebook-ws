@@ -1,7 +1,6 @@
 package com.ebook.services.service;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +10,14 @@ import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import com.ebook.common.dto.PartDTO;
+import com.ebook.common.enums.ContentTypeEnum;
 import com.ebook.domain.entity.Part;
+import com.ebook.domain.entity.TypeAwareEntity;
 import com.ebook.domain.repository.PartRepository;
 
 
@@ -41,12 +44,14 @@ public class PartService extends AbstractService<Part, PartDTO, PartRepository>{
 	}
 
 	@Transactional
-	@Override
-	public List<PartDTO> getAll() {
-		List<Part> entities = repository.findAllByOrderByPartNumberAsc();
+	public List<PartDTO> getAll(ContentTypeEnum contentTypeEnum) {
+		Order order = new Order(Sort.Direction.ASC, "partNumber");
+		Sort sort = new Sort(order);
+		List<TypeAwareEntity> entities = repository.findAllBycontentType(contentTypeEnum,sort);
 		List<PartDTO> partDTOList = new ArrayList<>();
 		if (entities != null) {
-			for (Part part : entities) {
+			for (TypeAwareEntity entity : entities) {
+				Part part = (Part) entity;
 				PartDTO entityDTO = convertDaoToDto(part, PartDTO.class);
 				partDTOList.add(entityDTO);
 			}

@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-public class PartDTO implements Serializable {
+public class PartDTO extends ContentTypeDTO implements Serializable {
 
 	/**
 	* 

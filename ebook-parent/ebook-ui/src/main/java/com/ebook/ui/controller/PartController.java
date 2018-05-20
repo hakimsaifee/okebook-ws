@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.amazonaws.services.workdocs.model.InvalidArgumentException;
 import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.ContactUsDTO;
 import com.ebook.common.dto.NodeTypeEnum;
@@ -22,6 +24,7 @@ import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
 import com.ebook.common.dto.TreeModel;
 import com.ebook.common.dto.TreeWrapper;
+import com.ebook.common.enums.ContentTypeEnum;
 import com.ebook.services.service.PartService;
 import com.ebook.services.service.SectionService;
 import com.ebook.ui.mail.AWSSendMail;
@@ -44,13 +47,19 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 
 	@RequestMapping(path = "savePart", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public PartDTO savePart(@RequestBody PartDTO partDTO) {
-		LOGGER.debug("Saving Part details ");
+		LOGGER.debug("Saving Part details {}", partDTO.getContentType());
+		System.out.println("Saving Part details" + partDTO.getContentType());
 
 		PartDTO part;
 		if (partDTO != null && partDTO.getPartNumber() != null) {
 			part = service.getPartByPartNumber(partDTO.getPartNumber());
 			if (part != null) {
 				LOGGER.info("Part Already Exists , Hence Couldnt add a new Entry {}", part.getId());
+				//Part is already exits need to add more chapters into part.
+				if(partDTO.getChapters() != null) {
+					part.getChapters().addAll(partDTO.getChapters());
+				}
+				service.update(part);
 			} else {
 				LOGGER.info("Part Doesnt Exists , Creating a new Entry");
 
@@ -76,17 +85,23 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 
 	
 	@RequestMapping(path = "contactMail", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
-	public String sendContactEmail(@RequestBody ContactUsDTO contactUsDTO) {
+	public ContactUsDTO sendContactEmail(@RequestBody ContactUsDTO contactUsDTO) {
 		LOGGER.debug("Sending contact email " +contactUsDTO);
 		System.out.println("Sending contact email " +contactUsDTO);
 		AWSSendMail.sendContactUsEmail(contactUsDTO);
-		return "Bi";
+		return contactUsDTO;
 	}
 	
 	@RequestMapping(path = "partNumbers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<PartDTO> getPartNumbers() {
+	public List<PartDTO> getPartNumbers(@RequestParam(value = "contentType") String contentType) {
+		
+		LOGGER.info("Gell All Part Numbers for Type : {}", contentType);
+		if(contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
+			throw new InvalidArgumentException("Content Type is Missing.");
+		}
+		
 		System.out.println("getPartNumbers");
-		List<PartDTO> partDTOList = (List<PartDTO>) service.getAll();
+		List<PartDTO> partDTOList = (List<PartDTO>) service.getAll(ContentTypeEnum.valueOf(contentType));
 
 		System.out.println("partDTO list is " + partDTOList);
 
@@ -143,10 +158,14 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	@RequestMapping(path = "get/getAllParts", produces = MediaType.APPLICATION_JSON_VALUE)
-	public TreeWrapper getAllParts() {
+	public TreeWrapper getAllParts(@RequestParam(value = "contentType") String contentType) {
+		LOGGER.info("Gell All Parts for : {}", contentType);
+		if(contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
+			throw new InvalidArgumentException("Content Type is Missing.");
+		}
 		TreeWrapper treeWrapper = null;
 		List<TreeModel> treeModels = null;
-		Collection<PartDTO> elements = service.getAll();
+		Collection<PartDTO> elements = service.getAll(ContentTypeEnum.valueOf(contentType));
 		if (elements != null && !elements.isEmpty()) {
 			treeWrapper = new TreeWrapper();
 			treeModels = new ArrayList<>();

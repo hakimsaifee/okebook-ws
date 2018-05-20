@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-public class SectionDTO implements Serializable {
+public class SectionDTO extends ContentTypeDTO implements Serializable {
 
 	/**
 	 * 
