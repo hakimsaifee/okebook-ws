@@ -176,7 +176,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 			}
 			treeWrapper.setTreeModels(treeModels);
 			// Adding sorted section list also.
-			treeWrapper.setSections(getOrderedSections());
+			treeWrapper.setSections(getOrderedSections(ContentTypeEnum.valueOf(contentType)));
 		}
 		return treeWrapper;
 	}
@@ -213,7 +213,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 		sectionTree.setData(sectionDTO.getSectionNumber(), sectionDTO.getSectionHeading(), NodeTypeEnum.SECTION);
 	}
 
-	private List<SectionDTO> getOrderedSections() {
-		return sectionService.getAll();
+	private List<SectionDTO> getOrderedSections(ContentTypeEnum contentType) {
+		return sectionService.getAll(contentType);
 	}
 }

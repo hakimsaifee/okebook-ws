@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.services.workdocs.model.InvalidArgumentException;
 import com.ebook.common.dto.ChapterDTO;
-import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
 import com.ebook.common.enums.ContentTypeEnum;
 import com.ebook.services.service.ChapterService;
@@ -106,7 +105,13 @@ public class SectionController extends AbstractController<SectionDTO, SectionSer
 	
 	
 	@RequestMapping(path = "get/sectionNumber", produces = MediaType.APPLICATION_JSON_VALUE)
-	public SectionDTO getById(@RequestParam(value = "id") String sectionNumber) {
+	public SectionDTO getById(@RequestParam(value = "contentType") String contentType, @RequestParam(value = "id") String sectionNumber) {
+		
+		LOGGER.info("Get Section for Type : {}", contentType);
+		if(contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
+			throw new InvalidArgumentException("Content Type is Missing.");
+		}
+		
 		double number = 0;
 		try {
 			number = Double.valueOf(sectionNumber);
@@ -114,13 +119,13 @@ public class SectionController extends AbstractController<SectionDTO, SectionSer
 			LOGGER.error("Unable to parse section number : " + e);
 			return null;
 		}
-		return service.getSectionBySectionNumber(BigDecimal.valueOf(number));
+		return service.getSectionBySectionNumber(BigDecimal.valueOf(number), ContentTypeEnum.valueOf(contentType));
 	}
 	
 	@RequestMapping(path = "get/getAllByContentType", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<SectionDTO> getPartNumbers(@RequestParam(value = "contentType") String contentType) {
 		
-		LOGGER.info("Gell All Sectionss for Type : {}", contentType);
+		LOGGER.info("Get All Sectionss for Type : {}", contentType);
 		if(contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
 			throw new InvalidArgumentException("Content Type is Missing.");
 		}
