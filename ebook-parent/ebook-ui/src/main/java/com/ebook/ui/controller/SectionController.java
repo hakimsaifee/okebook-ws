@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.amazonaws.services.workdocs.model.InvalidArgumentException;
 import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.SectionDTO;
 import com.ebook.common.enums.ContentTypeEnum;
@@ -109,7 +108,7 @@ public class SectionController extends AbstractController<SectionDTO, SectionSer
 		
 		LOGGER.info("Get Section for Type : {}", contentType);
 		if(contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
-			throw new InvalidArgumentException("Content Type is Missing.");
+			throw new IllegalArgumentException("Content Type is Missing.");
 		}
 		
 		double number = 0;
@@ -127,7 +126,7 @@ public class SectionController extends AbstractController<SectionDTO, SectionSer
 		
 		LOGGER.info("Get All Sectionss for Type : {}", contentType);
 		if(contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
-			throw new InvalidArgumentException("Content Type is Missing.");
+			throw new IllegalArgumentException("Content Type is Missing.");
 		}
 		
 		List<SectionDTO> sectionDTOList = service.getAllByContentType(ContentTypeEnum.valueOf(contentType));

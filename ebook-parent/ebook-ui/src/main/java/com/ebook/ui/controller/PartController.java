@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.amazonaws.services.workdocs.model.InvalidArgumentException;
 import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.ContactUsDTO;
 import com.ebook.common.dto.NodeTypeEnum;
@@ -97,7 +96,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 		
 		LOGGER.info("Gell All Part Numbers for Type : {}", contentType);
 		if(contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
-			throw new InvalidArgumentException("Content Type is Missing.");
+			throw new IllegalArgumentException("Content Type is Missing.");
 		}
 		
 		System.out.println("getPartNumbers");
@@ -161,7 +160,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	public TreeWrapper getAllParts(@RequestParam(value = "contentType") String contentType) {
 		LOGGER.info("Gell All Parts for : {}", contentType);
 		if(contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
-			throw new InvalidArgumentException("Content Type is Missing.");
+			throw new IllegalArgumentException("Content Type is Missing.");
 		}
 		TreeWrapper treeWrapper = null;
 		List<TreeModel> treeModels = null;
