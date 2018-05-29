@@ -7,7 +7,9 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import net.minidev.json.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+//import net.minidev.json.annotate.JsonIgnore;
 
 public class UserDetailDTO implements Serializable, UserDetails {
 
