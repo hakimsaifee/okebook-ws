@@ -2,6 +2,7 @@ package com.ebook.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +25,7 @@ import com.ebook.common.dto.SectionDTO;
 import com.ebook.common.dto.TreeModel;
 import com.ebook.common.dto.TreeWrapper;
 import com.ebook.common.enums.ContentTypeEnum;
+import com.ebook.common.util.SorterUtil;
 import com.ebook.services.service.PartService;
 import com.ebook.services.service.SectionService;
 import com.ebook.ui.mail.AWSSendMail;
@@ -45,17 +47,22 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	@RequestMapping(path = "savePart", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public PartDTO savePart(@RequestBody PartDTO partDTO) {
+	public PartDTO savePart(@RequestBody PartDTO partDTO, @RequestParam(value = "contentType") String contentType) {
 		LOGGER.debug("Saving Part details {}", partDTO.getContentType());
 		System.out.println("Saving Part details" + partDTO.getContentType());
 
+		LOGGER.info("Get Part for Type : {}", contentType);
+		if (contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
+			throw new IllegalArgumentException("Content Type is Missing.");
+		}
+
 		PartDTO part;
 		if (partDTO != null && partDTO.getPartNumber() != null) {
-			part = service.getPartByPartNumber(partDTO.getPartNumber());
+			part = service.getPartByPartNumber(partDTO.getPartNumber(), ContentTypeEnum.valueOf(contentType));
 			if (part != null) {
 				LOGGER.info("Part Already Exists , Hence Couldnt add a new Entry {}", part.getId());
-				//Part is already exits need to add more chapters into part.
-				if(partDTO.getChapters() != null) {
+				// Part is already exits need to add more chapters into part.
+				if (partDTO.getChapters() != null) {
 					part.getChapters().addAll(partDTO.getChapters());
 				}
 				service.update(part);
@@ -82,23 +89,22 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 
 	}
 
-	
-	@RequestMapping(path = "contactMail", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path = "contactMail", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ContactUsDTO sendContactEmail(@RequestBody ContactUsDTO contactUsDTO) {
-		LOGGER.debug("Sending contact email " +contactUsDTO);
-		System.out.println("Sending contact email " +contactUsDTO);
+		LOGGER.debug("Sending contact email " + contactUsDTO);
+		System.out.println("Sending contact email " + contactUsDTO);
 		AWSSendMail.sendContactUsEmail(contactUsDTO);
 		return contactUsDTO;
 	}
-	
+
 	@RequestMapping(path = "partNumbers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<PartDTO> getPartNumbers(@RequestParam(value = "contentType") String contentType) {
-		
-		LOGGER.info("Gell All Part Numbers for Type : {}", contentType);
-		if(contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
+
+		LOGGER.info("Gell Part Numbers for Type : {}", contentType);
+		if (contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
 			throw new IllegalArgumentException("Content Type is Missing.");
 		}
-		
+
 		System.out.println("getPartNumbers");
 		List<PartDTO> partDTOList = (List<PartDTO>) service.getAll(ContentTypeEnum.valueOf(contentType));
 
@@ -108,12 +114,17 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	@RequestMapping(path = "edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public PartDTO editPart(@RequestBody PartDTO partDTO) {
+	public PartDTO editPart(@RequestBody PartDTO partDTO, @RequestParam(value = "contentType") String contentType) {
 		LOGGER.debug("Editing Part details ");
+
+		LOGGER.info("Get Part for Type : {}", contentType);
+		if (contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
+			throw new IllegalArgumentException("Content Type is Missing.");
+		}
 
 		PartDTO part;
 		if (partDTO != null && partDTO.getPartNumber() != null) {
-			part = service.getPartByPartNumber(partDTO.getPartNumber());
+			part = service.getPartByPartNumber(partDTO.getPartNumber(), ContentTypeEnum.valueOf(contentType));
 			if (part != null) {
 
 				/*
@@ -146,10 +157,17 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	@RequestMapping(path = "partHeading", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public PartDTO getPartHeading(@RequestBody PartDTO partNumber) {
-		System.out.println("getPartHeading");
+	public PartDTO getPartHeading(@RequestBody PartDTO partNumber,
+			@RequestParam(value = "contentType") String contentType) {
+		
+		LOGGER.info("Get Part By Part Number : {} ", partNumber);
 
-		PartDTO partDto = service.getPartByPartNumber(partNumber.getPartNumber());
+		LOGGER.info("Get Part for Type : {}", contentType);
+		if (contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
+			throw new IllegalArgumentException("Content Type is Missing.");
+		}
+
+		PartDTO partDto = service.getPartByPartNumber(partNumber.getPartNumber(), ContentTypeEnum.valueOf(contentType));
 
 		System.out.println("partDTO list is " + partDto);
 
@@ -159,7 +177,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	@RequestMapping(path = "get/getAllParts", produces = MediaType.APPLICATION_JSON_VALUE)
 	public TreeWrapper getAllParts(@RequestParam(value = "contentType") String contentType) {
 		LOGGER.info("Gell All Parts for : {}", contentType);
-		if(contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
+		if (contentType == null || ContentTypeEnum.valueOf(contentType) == null) {
 			throw new IllegalArgumentException("Content Type is Missing.");
 		}
 		TreeWrapper treeWrapper = null;
@@ -168,7 +186,9 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 		if (elements != null && !elements.isEmpty()) {
 			treeWrapper = new TreeWrapper();
 			treeModels = new ArrayList<>();
-			for (PartDTO partDTO : elements) {
+			ArrayList<PartDTO> sortedList = new ArrayList<>(elements);
+			Collections.sort(sortedList, SorterUtil.partComparator);
+			for (PartDTO partDTO : sortedList) {
 				TreeModel tree = new TreeModel();
 				mapPartToTreeModel(partDTO, tree);
 				treeModels.add(tree);
@@ -185,7 +205,9 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 		Set<ChapterDTO> chapters = partDTO.getChapters();
 		if (chapters != null && !chapters.isEmpty()) {
 			List<TreeModel> chaptersTree = new ArrayList<>();
-			for (ChapterDTO chapterDTO : chapters) {
+			ArrayList<ChapterDTO> sortedList = new ArrayList<>(chapters);
+			Collections.sort(sortedList, SorterUtil.chapterComparator);
+			for (ChapterDTO chapterDTO : sortedList) {
 				TreeModel chapterModel = new TreeModel();
 				mapChapterToTreeModel(chapterDTO, chapterModel);
 				chaptersTree.add(chapterModel);
@@ -199,7 +221,9 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 		Set<SectionDTO> sections = chapterDTO.getSections();
 		if (sections != null && !sections.isEmpty()) {
 			List<TreeModel> sectionsTree = new ArrayList<>();
-			for (SectionDTO sectionDTO : sections) {
+			ArrayList<SectionDTO> sortedList = new ArrayList<>(sections);
+			Collections.sort(sortedList, SorterUtil.sectionComparator);
+			for (SectionDTO sectionDTO : sortedList) {
 				TreeModel sectionModel = new TreeModel();
 				mapSectionToTreeModel(sectionDTO, sectionModel);
 				sectionsTree.add(sectionModel);

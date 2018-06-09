@@ -57,7 +57,7 @@ public class ChapterController extends AbstractController<ChapterDTO, ChapterSer
 		if (partDTO != null && partDTO.getChapters() != null && !partDTO.getChapters().isEmpty()) {
 			LOGGER.info("Part Already Exists , Hence Updating {}", partDTO.getId());
 			
-			entityDTO = partService.getPartByPartNumber(partDTO.getPartNumber());
+			entityDTO = partService.getById(partDTO.getId());
 			
 			Set<ChapterDTO> chapterDTOs = partDTO.getChapters();
 			
