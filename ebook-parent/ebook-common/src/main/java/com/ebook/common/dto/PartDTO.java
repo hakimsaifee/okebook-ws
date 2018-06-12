@@ -22,6 +22,9 @@ public class PartDTO extends ContentTypeDTO implements Serializable {
 	@JsonManagedReference
 	private Set<ChapterDTO> chapters;
 
+	@JsonManagedReference
+	private Set<FormDTO> forms;
+
 	public long getId() {
 		return id;
 	}
@@ -52,5 +55,13 @@ public class PartDTO extends ContentTypeDTO implements Serializable {
 
 	public void setChapters(Set<ChapterDTO> chapters) {
 		this.chapters = chapters;
+	}
+
+	public Set<FormDTO> getForms() {
+		return forms;
+	}
+
+	public void setForms(Set<FormDTO> forms) {
+		this.forms = forms;
 	}
 }

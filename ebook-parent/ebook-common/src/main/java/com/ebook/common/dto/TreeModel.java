@@ -1,6 +1,5 @@
 package com.ebook.common.dto;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class TreeModel {
@@ -25,7 +24,7 @@ public class TreeModel {
 		this.children = children;
 	}
 
-	public void setData(BigDecimal number, String data, NodeTypeEnum nodeType) {
+	public void setData(String number, String data, String nodeType) {
 		this.setData(new Data(data, number, nodeType));
 	}
 
@@ -33,21 +32,21 @@ public class TreeModel {
 
 class Data {
 	private String name;
-	private BigDecimal number;
+	private String number;
 
-	private NodeTypeEnum nodeType;
+	private String nodeType;
 
-	public Data(String data, BigDecimal number ,NodeTypeEnum nodeType) {
+	public Data(String data, String number ,String nodeType) {
 		this.name = data;
 		this.nodeType = nodeType;
 		this.number = number;
 	}
 
-	public BigDecimal getNumber() {
+	public String getNumber() {
 		return number;
 	}
-
-	public void setNumber(BigDecimal number) {
+	
+	public void setNumber(String number) {
 		this.number = number;
 	}
 
@@ -59,11 +58,11 @@ class Data {
 		this.name = name;
 	}
 
-	public NodeTypeEnum getNodeType() {
+	public String getNodeType() {
 		return nodeType;
 	}
 
-	public void setNodeType(NodeTypeEnum nodeType) {
+	public void setNodeType(String nodeType) {
 		this.nodeType = nodeType;
 	}
 

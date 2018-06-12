@@ -42,6 +42,9 @@ public class Part extends TypeAwareEntity implements Serializable {
 	@OneToMany(mappedBy = "part",cascade=CascadeType.ALL)
 	private Set<Chapter> chapters;
 
+	@OneToMany(mappedBy = "part",cascade=CascadeType.ALL)
+	private Set<Form> forms;
+
 	public Part() {
 	}
 
@@ -92,4 +95,11 @@ public class Part extends TypeAwareEntity implements Serializable {
 		return chapter;
 	}
 
+	public Set<Form> getForms() {
+		return forms;
+	}
+	
+	public void setForms(Set<Form> forms) {
+		this.forms = forms;
+	}
 }

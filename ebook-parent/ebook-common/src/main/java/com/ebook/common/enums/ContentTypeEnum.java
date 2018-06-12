@@ -4,5 +4,7 @@ public enum ContentTypeEnum {
 
 	SECTION,
 	REGULATION,
-	RULE
+	RULE,
+	FORM,
+	SCHEDULE
 }

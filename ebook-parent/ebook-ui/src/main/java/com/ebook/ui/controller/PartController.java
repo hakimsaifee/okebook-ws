@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.common.dto.ChapterDTO;
 import com.ebook.common.dto.ContactUsDTO;
+import com.ebook.common.dto.FormDTO;
 import com.ebook.common.dto.NodeTypeEnum;
 import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
@@ -159,7 +160,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	@RequestMapping(path = "partHeading", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public PartDTO getPartHeading(@RequestBody PartDTO partNumber,
 			@RequestParam(value = "contentType") String contentType) {
-		
+
 		LOGGER.info("Get Part By Part Number : {} ", partNumber);
 
 		LOGGER.info("Get Part for Type : {}", contentType);
@@ -201,7 +202,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	private void mapPartToTreeModel(PartDTO partDTO, TreeModel tree) {
-		tree.setData(partDTO.getPartNumber(), partDTO.getPartHeading(), NodeTypeEnum.PART);
+		tree.setData(String.valueOf(partDTO.getPartNumber()), partDTO.getPartHeading(), NodeTypeEnum.PART.toString());
 		Set<ChapterDTO> chapters = partDTO.getChapters();
 		if (chapters != null && !chapters.isEmpty()) {
 			List<TreeModel> chaptersTree = new ArrayList<>();
@@ -214,10 +215,27 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 			}
 			tree.setChildren(chaptersTree);
 		}
+
+		// Add Form or Schedule to Part Tree.
+		Set<FormDTO> forms = partDTO.getForms();
+		if (forms != null && !forms.isEmpty()) {
+			LOGGER.info("Populating Forms/Schedule to Part : {} ", forms.size());
+			List<TreeModel> formsTree = new ArrayList<>();
+			ArrayList<FormDTO> sortedList = new ArrayList<>(forms);
+			Collections.sort(sortedList, SorterUtil.formComparator);
+			for (FormDTO formDTO : sortedList) {
+				TreeModel formTreeModel = new TreeModel();
+				formTreeModel.setData(formDTO.getNumber(), formDTO.getHeading(), formDTO.getContentType());
+				formsTree.add(formTreeModel);
+			}
+			tree.getChildren().addAll(formsTree);
+		}
+
 	}
 
 	private void mapChapterToTreeModel(ChapterDTO chapterDTO, TreeModel chapterTree) {
-		chapterTree.setData(chapterDTO.getChapterNumber(), chapterDTO.getChapterHeading(), NodeTypeEnum.CHAPTER);
+		chapterTree.setData(String.valueOf(chapterDTO.getChapterNumber()), chapterDTO.getChapterHeading(),
+				NodeTypeEnum.CHAPTER.toString());
 		Set<SectionDTO> sections = chapterDTO.getSections();
 		if (sections != null && !sections.isEmpty()) {
 			List<TreeModel> sectionsTree = new ArrayList<>();
@@ -233,7 +251,8 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	private void mapSectionToTreeModel(SectionDTO sectionDTO, TreeModel sectionTree) {
-		sectionTree.setData(sectionDTO.getSectionNumber(), sectionDTO.getSectionHeading(), NodeTypeEnum.SECTION);
+		sectionTree.setData(String.valueOf(sectionDTO.getSectionNumber()), sectionDTO.getSectionHeading(),
+				NodeTypeEnum.SECTION.toString());
 	}
 
 	private List<SectionDTO> getOrderedSections(ContentTypeEnum contentType) {

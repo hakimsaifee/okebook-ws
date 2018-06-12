@@ -3,6 +3,7 @@ package com.ebook.common.util;
 import java.util.Comparator;
 
 import com.ebook.common.dto.ChapterDTO;
+import com.ebook.common.dto.FormDTO;
 import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
 
@@ -17,5 +18,8 @@ public class SorterUtil {
 	};
 	public static Comparator<ChapterDTO> chapterComparator = (c1, c2) -> {
 		return c1.getChapterNumber().compareTo(c2.getChapterNumber());
+	};
+	public static Comparator<FormDTO> formComparator = (c1, c2) -> {
+		return c1.getNumber().compareTo(c2.getNumber());
 	};
 }
