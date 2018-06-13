@@ -162,7 +162,7 @@ public class SectionController extends AbstractController<SectionDTO, SectionSer
 			Collections.sort(sortedList, SorterUtil.sectionComparator);
 			for (SectionDTO sectionDTO : sortedList) {
 				TreeModel tree = new TreeModel();
-				tree.setData(String.valueOf(sectionDTO.getSectionNumber()), sectionDTO.getSectionHeading(),
+				tree.setData(sectionDTO.getSectionNumber(), sectionDTO.getSectionHeading(),
 						NodeTypeEnum.RULE.toString());
 				treeModels.add(tree);
 			}

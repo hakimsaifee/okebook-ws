@@ -202,7 +202,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	private void mapPartToTreeModel(PartDTO partDTO, TreeModel tree) {
-		tree.setData(String.valueOf(partDTO.getPartNumber()), partDTO.getPartHeading(), NodeTypeEnum.PART.toString());
+		tree.setData(partDTO.getPartNumber(), partDTO.getPartHeading(), NodeTypeEnum.PART.toString());
 		Set<ChapterDTO> chapters = partDTO.getChapters();
 		if (chapters != null && !chapters.isEmpty()) {
 			List<TreeModel> chaptersTree = new ArrayList<>();
@@ -225,7 +225,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 			Collections.sort(sortedList, SorterUtil.formComparator);
 			for (FormDTO formDTO : sortedList) {
 				TreeModel formTreeModel = new TreeModel();
-				formTreeModel.setData(formDTO.getNumber(), formDTO.getHeading(), formDTO.getContentType());
+				formTreeModel.setData(formDTO.getNumber(), formDTO.getHeading(), formDTO.getContentType(), formDTO.getId());
 				formsTree.add(formTreeModel);
 			}
 			tree.getChildren().addAll(formsTree);
@@ -234,7 +234,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	private void mapChapterToTreeModel(ChapterDTO chapterDTO, TreeModel chapterTree) {
-		chapterTree.setData(String.valueOf(chapterDTO.getChapterNumber()), chapterDTO.getChapterHeading(),
+		chapterTree.setData(chapterDTO.getChapterNumber(), chapterDTO.getChapterHeading(),
 				NodeTypeEnum.CHAPTER.toString());
 		Set<SectionDTO> sections = chapterDTO.getSections();
 		if (sections != null && !sections.isEmpty()) {
@@ -251,7 +251,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	private void mapSectionToTreeModel(SectionDTO sectionDTO, TreeModel sectionTree) {
-		sectionTree.setData(String.valueOf(sectionDTO.getSectionNumber()), sectionDTO.getSectionHeading(),
+		sectionTree.setData(sectionDTO.getSectionNumber(), sectionDTO.getSectionHeading(),
 				NodeTypeEnum.SECTION.toString());
 	}
 

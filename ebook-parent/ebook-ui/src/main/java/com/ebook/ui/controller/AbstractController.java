@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ebook.domain.repository.AbstractRepository;
 import com.ebook.services.service.AbstractService;
@@ -26,8 +27,8 @@ public abstract class AbstractController<V, E extends AbstractService<?, V, ? ex
 		this.service = service;
 	}
 
-	@RequestMapping(path = "getById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public V getById(@PathVariable(value = "id") Long id) {
+	@RequestMapping(path = "get/getById", produces = MediaType.APPLICATION_JSON_VALUE)
+	public V getById(@RequestParam(value = "id") Long id) {
 		return service.getById(id);
 	}
 

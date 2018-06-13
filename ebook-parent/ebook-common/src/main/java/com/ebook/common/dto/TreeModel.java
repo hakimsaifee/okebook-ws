@@ -1,8 +1,9 @@
 package com.ebook.common.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TreeModel {
+public class TreeModel<T extends Serializable> {
 
 	private Data data;
 	
@@ -24,29 +25,39 @@ public class TreeModel {
 		this.children = children;
 	}
 
-	public void setData(String number, String data, String nodeType) {
+	public void setData(T number, String data, String nodeType) {
 		this.setData(new Data(data, number, nodeType));
+	}
+	public void setData(T number, String data, String nodeType, Long id) {
+		this.setData(new Data(data, number, nodeType, id));
 	}
 
 }
 
-class Data {
+class Data<T extends Serializable> {
 	private String name;
-	private String number;
+	private  T number;
+	private Long id;
 
 	private String nodeType;
 
-	public Data(String data, String number ,String nodeType) {
+	public Data(String data, T number ,String nodeType) {
 		this.name = data;
 		this.nodeType = nodeType;
 		this.number = number;
 	}
+	public Data(String data, T number ,String nodeType, Long id) {
+		this.name = data;
+		this.nodeType = nodeType;
+		this.number = number;
+		this.id = id;
+	}
 
-	public String getNumber() {
+	public T getNumber() {
 		return number;
 	}
 	
-	public void setNumber(String number) {
+	public void setNumber(T number) {
 		this.number = number;
 	}
 
@@ -66,4 +77,11 @@ class Data {
 		this.nodeType = nodeType;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

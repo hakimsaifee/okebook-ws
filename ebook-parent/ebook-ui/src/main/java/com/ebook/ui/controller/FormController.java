@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ebook.common.dto.ChapterDTO;
+import com.ebook.common.dto.FormDTO;
 import com.ebook.common.dto.PartDTO;
 import com.ebook.common.enums.ContentTypeEnum;
-import com.ebook.services.service.ChapterService;
+import com.ebook.services.service.FormService;
 import com.ebook.services.service.PartService;
 import com.ebook.services.service.SectionService;
 
 @RestController // Need to include jackson formattor to get xml/json as needed.
 @RequestMapping(value = FormController.FORM)
 @CrossOrigin(origins = "*", maxAge = 3600)
-public class FormController extends AbstractController<ChapterDTO, ChapterService> {
+public class FormController extends AbstractController<FormDTO, FormService> {
 	public static final String FORM = "form";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FormController.class);
 
 	@Autowired
-	public FormController(ChapterService service) {
+	public FormController(FormService service) {
 		super(service);
 	}
 
