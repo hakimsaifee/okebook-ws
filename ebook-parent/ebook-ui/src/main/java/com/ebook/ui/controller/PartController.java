@@ -202,7 +202,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 	}
 
 	private void mapPartToTreeModel(PartDTO partDTO, TreeModel tree) {
-		tree.setData(partDTO.getPartNumber(), partDTO.getPartHeading(), NodeTypeEnum.PART.toString());
+		tree.setData(partDTO.getPartNumber(), partDTO.getPartHeading(), NodeTypeEnum.PART.toString(), partDTO.getId());
 		Set<ChapterDTO> chapters = partDTO.getChapters();
 		if (chapters != null && !chapters.isEmpty()) {
 			List<TreeModel> chaptersTree = new ArrayList<>();
@@ -235,7 +235,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 
 	private void mapChapterToTreeModel(ChapterDTO chapterDTO, TreeModel chapterTree) {
 		chapterTree.setData(chapterDTO.getChapterNumber(), chapterDTO.getChapterHeading(),
-				NodeTypeEnum.CHAPTER.toString());
+				NodeTypeEnum.CHAPTER.toString(), chapterDTO.getId());
 		Set<SectionDTO> sections = chapterDTO.getSections();
 		if (sections != null && !sections.isEmpty()) {
 			List<TreeModel> sectionsTree = new ArrayList<>();
@@ -252,7 +252,7 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 
 	private void mapSectionToTreeModel(SectionDTO sectionDTO, TreeModel sectionTree) {
 		sectionTree.setData(sectionDTO.getSectionNumber(), sectionDTO.getSectionHeading(),
-				NodeTypeEnum.SECTION.toString());
+				NodeTypeEnum.SECTION.toString(), sectionDTO.getId());
 	}
 
 	private List<SectionDTO> getOrderedSections(ContentTypeEnum contentType) {
