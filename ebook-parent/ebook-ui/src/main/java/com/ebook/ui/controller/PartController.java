@@ -228,6 +228,9 @@ public class PartController extends AbstractController<PartDTO, PartService> {
 				formTreeModel.setData(formDTO.getNumber(), formDTO.getHeading(), formDTO.getContentType(), formDTO.getId());
 				formsTree.add(formTreeModel);
 			}
+			if(tree.getChildren() == null) {
+				tree.setChildren(new ArrayList<>());
+			}
 			tree.getChildren().addAll(formsTree);
 		}
 
