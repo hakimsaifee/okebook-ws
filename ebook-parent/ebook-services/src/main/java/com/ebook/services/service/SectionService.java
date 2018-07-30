@@ -12,8 +12,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
+import com.ebook.common.dto.PartDTO;
 import com.ebook.common.dto.SectionDTO;
 import com.ebook.common.enums.ContentTypeEnum;
+import com.ebook.domain.entity.Chapter;
+import com.ebook.domain.entity.Part;
 import com.ebook.domain.entity.Section;
 import com.ebook.domain.entity.TypeAwareEntity;
 import com.ebook.domain.repository.SectionRepository;
@@ -65,10 +68,28 @@ public class SectionService extends AbstractService<Section, SectionDTO, Section
 			for (TypeAwareEntity entity : entities) {
 				Section section = (Section) entity;
 				SectionDTO entityDTO = convertDaoToDto(section, SectionDTO.class);
+				PartDTO partDTO = setPartDetails(section);
+				entityDTO.setPart(partDTO);
 				sectionDTOList.add(entityDTO);
 			}
 		}
 		return sectionDTOList;
 
+	}
+
+	private PartDTO setPartDetails(Section section) {
+		if(section != null) {
+			Chapter chapter = section.getChapter();
+			Part part = chapter != null ? chapter.getPart() : null;
+			
+			if(part == null) return null;
+			
+			PartDTO partDTO = new PartDTO();
+			partDTO.setId(part.getId());
+			partDTO.setPartHeading(part.getPartHeading());
+			partDTO.setPartNumber(part.getPartNumber());
+			return partDTO;
+		}
+		return null;
 	}
 }

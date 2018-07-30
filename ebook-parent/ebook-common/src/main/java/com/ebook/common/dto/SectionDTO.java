@@ -23,6 +23,9 @@ public class SectionDTO extends ContentTypeDTO implements Serializable {
 
 	@JsonBackReference
 	private ChapterDTO chapter;
+	
+	//Added just because we need to know part detail for the regulation.
+	private PartDTO part;
 
 	public long getId() {
 		return id;
@@ -65,6 +68,12 @@ public class SectionDTO extends ContentTypeDTO implements Serializable {
 		this.sectionDetail = sectionDetail;
 	}
 	
+	public PartDTO getPart() {
+		return part;
+	}
 	
+	public void setPart(PartDTO part) {
+		this.part = part;
+	}
 
 }
