@@ -32,10 +32,10 @@ public class Company implements Serializable {
 	@Column(name = "company_name", nullable = false, length = 1024)
 	private String companyName;
 
-	@Column(name = "company_id", nullable = false, length = 100)
+	@Column(name = "company_id", nullable = true, length = 100)
 	private String companyId;
 
-	@Column(name = "company_detail", nullable = false, length = 1024)
+	@Column(name = "company_detail", nullable = true, length = 1024)
 	private String companyDetail;
 
 	// bi-directional many-to-one association to Section
