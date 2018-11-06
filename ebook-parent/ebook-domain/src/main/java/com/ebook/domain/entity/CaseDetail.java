@@ -37,6 +37,9 @@ public class CaseDetail implements Serializable {
 
 	@Column(name = "case_document_path", length=1024)
 	private String caseDocumentPath;
+
+	@Column(name = "case_document_description", length=1024)
+	private String caseDocumentDescription;
 	
 	@Column(name = "CREATED_TS", nullable = false)
 	private Timestamp createdTs;
@@ -101,5 +104,13 @@ public class CaseDetail implements Serializable {
 	
 	public void setCreatedTs(Timestamp createdTs) {
 		this.createdTs = createdTs;
+	}
+	
+	public String getCaseDocumentDescription() {
+		return caseDocumentDescription;
+	}
+	
+	public void setCaseDocumentDescription(String caseDocumentDescription) {
+		this.caseDocumentDescription = caseDocumentDescription;
 	}
 }

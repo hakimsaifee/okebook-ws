@@ -67,13 +67,8 @@ public abstract class AbstractService<T, V, E extends AbstractRepository<T, ?>> 
 		return save(dto);
 	}
 
-	public V delete(Long id) {
-		T entity = repository.findOne(id);
-		return delete(convertDaoToDto(entity, dtoClazz));
-	}
-
-	public V delete(V dto) {
-		return delete(dto);
+	public void delete(Long id) {
+		repository.delete(id);
 	}
 
 	public V getById(Long id) {

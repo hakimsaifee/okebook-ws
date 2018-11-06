@@ -19,6 +19,8 @@ public class CaseDetailDTO implements Serializable {
 	private String caseDetail;
 
 	private String caseDocumentPath;
+	
+	private String caseDocumentDescription;
 
 	private Timestamp createdTs;
 
@@ -71,5 +73,13 @@ public class CaseDetailDTO implements Serializable {
 	
 	public void setCompany(CompanyDTO company) {
 		this.company = company;
+	}
+	
+	public String getCaseDocumentDescription() {
+		return caseDocumentDescription;
+	}
+	
+	public void setCaseDocumentDescription(String caseDocumentDescription) {
+		this.caseDocumentDescription = caseDocumentDescription;
 	}
 }

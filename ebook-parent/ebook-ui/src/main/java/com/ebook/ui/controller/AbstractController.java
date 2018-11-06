@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,14 +29,15 @@ public abstract class AbstractController<V, E extends AbstractService<?, V, ? ex
 	}
 
 	@RequestMapping(path = "get/getById", produces = MediaType.APPLICATION_JSON_VALUE)
-	public V getById(@RequestParam(value = "id") Long id) {
-		return service.getById(id);
+	public V getById(@RequestParam(value = "id") String id) {
+		return service.getById(Long.parseLong(id));
 	}
 
 	
-	@RequestMapping(path = "delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public V delete(@PathVariable(value = "id") Long id) {
-		return service.delete(id);
+	@RequestMapping(path = "delete", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
+	public Boolean delete(@RequestParam(value = "id") String id) {
+		service.delete(Long.parseLong(id));
+		return Boolean.TRUE;
 	}
 	
 	
