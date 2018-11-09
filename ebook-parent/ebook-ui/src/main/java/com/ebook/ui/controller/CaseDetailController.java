@@ -55,14 +55,14 @@ public class CaseDetailController extends AbstractController<CaseDetailDTO, Case
 	@RequestMapping(path = "addCase", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CaseDetailDTO addCompany(@RequestBody CaseDetailDTO caseDetailDTO) {
 
-		if (caseDetailDTO != null) {
-			caseDetailDTO.setCreatedTs(new Timestamp(System.currentTimeMillis()));
-			if (caseDetailDTO.getCompany() != null) {
+//		if (caseDetailDTO != null) {
+//			caseDetailDTO.setCreatedTs(new Timestamp(System.currentTimeMillis()));
+			if (caseDetailDTO != null && caseDetailDTO.getCompany() != null) {
 				CompanyDTO companyDTO = companyService.getById(caseDetailDTO.getCompany().getId());
 				caseDetailDTO.setCompany(companyDTO);
+				return service.save(caseDetailDTO);
 			}
-			return service.save(caseDetailDTO);
-		}
+//		}
 		return null;
 	}
 

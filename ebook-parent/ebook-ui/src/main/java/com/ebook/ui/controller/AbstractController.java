@@ -49,13 +49,11 @@ public abstract class AbstractController<V, E extends AbstractService<?, V, ? ex
 
 	@RequestMapping(path = "add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public V add(@RequestBody V dto) {
-		System.out.println("Add");
 		return service.save(dto);
 	}
 
 	@RequestMapping(path = "update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public V update(@RequestBody V dto) {
-		System.out.println("Update");
 		return service.update(dto);
 	}
 

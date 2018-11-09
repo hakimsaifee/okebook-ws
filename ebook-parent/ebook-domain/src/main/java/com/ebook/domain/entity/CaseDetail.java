@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * The persistent class for the chapter database table.
  * 
@@ -24,8 +26,9 @@ public class CaseDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "CASE_DETAIL_ID_GENERATOR", sequenceName = "AUTO")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CASE_DETAIL_ID_GENERATOR")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CASE_DETAIL_GENERATOR")
+	@GenericGenerator(name = "CASE_DETAIL_GENERATOR", strategy = "sequence", parameters = {
+			@org.hibernate.annotations.Parameter(name = "sequence", value = "CASE_DETAIL_SEQ") })
 	@Column(unique = true, nullable = false)
 	private long id;
 
