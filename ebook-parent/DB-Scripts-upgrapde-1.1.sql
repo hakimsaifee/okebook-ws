@@ -26,3 +26,6 @@ create table image_detail (id int8 not null, description varchar(512), image_nam
 
 --Alter Tables
 alter table case_detail add constraint FK6uq5waep9s6dkptvydjki5skk foreign key (company_id) references company;
+
+--drop not null constraint.
+alter table case_detail alter column created_ts drop not null;
