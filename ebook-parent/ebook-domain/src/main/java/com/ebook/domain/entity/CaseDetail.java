@@ -44,7 +44,7 @@ public class CaseDetail implements Serializable {
 	@Column(name = "case_document_description", length=1024)
 	private String caseDocumentDescription;
 	
-	@Column(name = "CREATED_TS", nullable = false)
+	@Column(name = "CREATED_TS")
 	private Timestamp createdTs;
 
 	@ManyToOne()
