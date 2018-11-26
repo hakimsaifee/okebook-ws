@@ -9,7 +9,7 @@ import com.ebook.domain.entity.CaseDetail;
 
 public interface CaseDetailRepository extends AbstractRepository<CaseDetail, Long> {
 
-	@Query("FROM CaseDetail cd where cd.company.id = :companyId order by cd.createdTs desc")
+	@Query("FROM CaseDetail cd where cd.company.id = :companyId order by cd.id desc")
     List<CaseDetail> findAllByCompanyId(@Param("companyId") Long companyId);
 
 }
