@@ -6,7 +6,7 @@ alter table section_rule drop constraint EFK_SEC_RULE_ID
 alter table section_rule drop constraint EFK_SEC_RULE_SID
 alter table user_role drop constraint EFK_USR_RULE_ID
 alter table user_role drop constraint EFK_USR_RULE_UID
--- Drop Tables 
+-- Drop Tables 	--
 drop table if exists notification cascade;
 drop table if exists part cascade;
 drop table if exists regulation cascade;
