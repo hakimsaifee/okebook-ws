@@ -17,7 +17,7 @@ drop table if exists section_regulation cascade;
 drop table if exists section_rule cascade;
 drop table if exists user_detail cascade;
 drop table if exists user_role cascade;
-----
+------
 -- Drop Sequence
 drop sequence auto;
 drop sequence part_seq;
