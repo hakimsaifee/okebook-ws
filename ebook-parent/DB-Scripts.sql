@@ -21,7 +21,7 @@ drop table if exists user_role cascade;
 -- Drop Sequence
 drop sequence auto;
 drop sequence part_seq;
---
+---
 -- Create Sequence
 create sequence auto start 1 increment 1;
 create sequence part_seq start 1 increment 1;
