@@ -57,9 +57,9 @@ public abstract class AbstractController<V, E extends AbstractService<?, V, ? ex
 		return service.update(dto);
 	}
 
-	@RequestMapping(path = "get/getAll/{pageNumber}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public AbstractPageWrapper<V> getAllPagedElements(@PathVariable("pageNumber") int pageNumber,
-			@PathVariable("pageSize") int pageSize) {
+	@RequestMapping(path = "get/getAllPaged", produces = MediaType.APPLICATION_JSON_VALUE)
+	public AbstractPageWrapper<V> getAllPagedElements(@RequestParam("pageNumber") int pageNumber,
+			@RequestParam("pageSize") int pageSize) {
 		System.out.println("Inside get all");
 		System.out.println("Page Number : " + pageNumber);
 		System.out.println("Page Size : " + pageSize);

@@ -47,6 +47,9 @@ public class CaseDetail implements Serializable {
 	@Column(name = "CREATED_TS")
 	private Timestamp createdTs;
 
+	@Column(name = "UPDATED_TS")
+	private Timestamp updatedTs;
+
 	@ManyToOne()
 	@JoinColumn(name = "company_id" , referencedColumnName="id")
 	private Company company;
